@@ -1,12 +1,19 @@
-# Project Title
+# EC3882 - Laboratorio de Proyectos 2. Sección 1.
+# Estación Meteorológica (SOFTWARE).
 
-One Paragraph of project description goes here
+#### Autores: Jeckson Jaimes. 12-10446.
+####          Anna Cafaro. 12-10997.
+#### Profesor: Novel Certad.
 
-## Getting Started
+## Lenguajes de programación utilizados.
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+* CodeWarrior. [**Codes**](https://github.com/japroyectos-2/software/tree/master/CodeWarrior/ADCSerial/Sources).
+* Processing. [**Codes**](https://github.com/japroyectos-2/software/tree/master/Processing/Interfaz).
+* Matlab. [**Codes**](https://github.com/japroyectos-2/software/tree/master/Matlab).
 
-### Prerequisites
+#### Links para el diseño del README.
+
+Documentación: [**GitHub Documentation**](https://help.github.com/articles/basic-writing-and-formatting-syntax/)
 
 What things you need to install the software and how to install them
 

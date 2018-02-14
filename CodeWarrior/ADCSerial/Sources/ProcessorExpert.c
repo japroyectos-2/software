@@ -110,7 +110,7 @@ void main(void)
 	  		  		env[0] = 0xF2;
 	  		  		env[1] = ADC2.u16;
 	  		  		env[2] = ADC1.u16;
-	  		  		/* env[3] = 0x00;
+	  		  		/*env[3] = 0x00;
 	  		  		env[4] = 0x00;*/
 	  		  		dato = enviar;
 

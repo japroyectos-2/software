@@ -152,10 +152,11 @@ void grid(){
   stroke(255);
   
   while(x < width){
-    float i = 3.29, m = 60;
+    float i = 3.3, m = 60;
+    text("SEÑAL DE ENTRADA", 350, 50);
     while(m <= 580){
     text(i, 5, m);
-      i = i - 0.235;
+      i = i - 0.253846;
       m = m + 40;
     }
     line(x, 60, x, height-40);

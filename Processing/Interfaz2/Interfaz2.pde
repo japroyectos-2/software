@@ -3,8 +3,11 @@ import processing.serial.*;
 Serial Port;
 boolean found;
 IntList buf1, buf2;
-int estado = 1, lastx = 40, lasty = 600, posx = 40, posy, increm = 50; 
+int estado = 1, lastx = 40, lasty = 600, posx = 40, posy, increm = 10; 
 byte con1, con2, con3, con4;
+boolean pintar = false;
+int dato;
+
 //   ASCII: + 43, - 45
 
 void setup(){
@@ -12,8 +15,8 @@ void setup(){
     //println(Serial.list());
     Port = new Serial(this, Serial.list()[0], 115200);
     Port.buffer(3); // DEBE SER DE TAMAÑO 5 PARA 2 ANALÓGICOS.
-    buf1 = new IntList();
-    buf2 = new IntList();
+    //buf1 = new IntList();
+    //buf2 = new IntList();
     background(0);
     grid();
 } // setup()
@@ -21,9 +24,9 @@ void setup(){
 void draw(){
     
     // PARA PINTAR ANALÓGICO 1.
-    if(buf1.size()>=40){         // Tamaño de la lista para comenzar a pintar.
+    if(pintar){         // Tamaño de la lista para comenzar a pintar.
       if(posx < 800){
-        posy = buf1.remove(0);   // Obtiene el primer valor de la lista y lo elimina de esta.
+        posy = dato;   // Obtiene el primer valor de la lista y lo elimina de esta.
         if(posx == 40){    
           //stroke(255);
           //line(lastx, lasty, posx, posy);
@@ -33,21 +36,24 @@ void draw(){
         } 
         else {
           stroke(0,100,255);
+          strokeWeight(2);
           line(lastx, lasty, posx, posy);
           lastx = posx;
           lasty = posy;
           posx += increm;
         }
-        // pintar = false
+        pintar=false;
+        
       } // if() 2
       else {
         posx = 40;
         lastx = 40;
         lasty= 600;
         background(0);
+        strokeWeight(1);
         grid();
-        buf1.clear();            // Se vacia la lista.
       } // else 
+      pintar = false;
     } // if() 1
     
     // PARA PINTAR ANALÓGICO 2.
@@ -95,7 +101,8 @@ void serialEvent(Serial Port){
         case 3:           // Parados en Byte 2 de Analógico 1.
           con2 = in[i];   // Se obtiene Byte 2.
           //println(hex(con2));
-          buf1.append(decode(con1,con2)); // Guardar decodificación de valores en la lista de analógico 1.
+          dato= decode(con1,con2); // Guardar decodificación de valores en la lista de analógico 1.
+          pintar = true;
           estado = 1;
           break;
           

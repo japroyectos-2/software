@@ -1,94 +1,27 @@
 # EC3882 - Laboratorio de Proyectos 2. Sección 1.
 # Estación Meteorológica (SOFTWARE).
 
-#### Autores: Jeckson Jaimes. 12-10446.
-####          Anna Cafaro. 12-10997.
+#### Autores: 
+#### Jeckson Jaimes. 12-10446.
+#### Anna Cafaro. 12-10997.
 #### Profesor: Novel Certad.
+
+En este repositorio se encuentran los algoritmos utilizados para el desarrollo de la interfaz gráfica y la conmunicación serial entre el demoqe, los sensores y el computador. Este apartado tiene como finalidad el desarrollo de un interfaz completa donde se aprecie la unión y funcionamiento de todos los sensores que integrarán la estación meteorológica.
 
 ## Lenguajes de programación utilizados.
 
 * CodeWarrior. [**Codes**](https://github.com/japroyectos-2/software/tree/master/CodeWarrior/ADCSerial/Sources).
-* Processing. [**Codes**](https://github.com/japroyectos-2/software/tree/master/Processing/Interfaz).
 * Matlab. [**Codes**](https://github.com/japroyectos-2/software/tree/master/Matlab).
+* Processing. [**Codes**](https://github.com/japroyectos-2/software/tree/master/Processing/Interfaz).
 
-#### Links para el diseño del README.
+### CodeWarrior.
 
-Documentación: [**GitHub Documentation**](https://help.github.com/articles/basic-writing-and-formatting-syntax/)
+En este lenguaje de programación, se programa todo el funcionamiento del microcontrolador que se está utilizando, en este se recibe el valor de la señal analógica que viene del bloque de adquisición y se realiza la conversión analógico-digital, luego esta señal es procesada y codificada con el protocolo de información que se está utilizando para luego ser enviado por vía puerto serial hacia Processing donde se harán los correspondientes ajustes de la señal para posteriormente ser mostrada en la interfaz. 
 
-What things you need to install the software and how to install them
+### Matlab.
 
-```
-Give examples
-```
+En este lenguaje de programación, se hizo una primera "interfaz" en la que se recogían una serie de datos recibidos del demoqe y luego estos eran impresos por pantalla, no era útil ya que no era información en tiempo real, por lo que se decidió seguir trabajando en Processing.
 
-### Installing
+### Processing.
 
-A step by step series of examples that tell you have to get a development env running
-
-Say what the step will be
-
-```
-Give the example
-```
-
-And repeat
-
-```
-until finished
-```
-
-End with an example of getting some data out of the system or using it for a little demo
-
-## Running the tests
-
-Explain how to run the automated tests for this system
-
-### Break down into end to end tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
-
-### And coding style tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
-
-## Deployment
-
-Add additional notes about how to deploy this on a live system
-
-## Built With
-
-* [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - The web framework used
-* [Maven](https://maven.apache.org/) - Dependency Management
-* [ROME](https://rometools.github.io/rome/) - Used to generate RSS Feeds
-
-## Contributing
-
-Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
-
-## Versioning
-
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags). 
-
-## Authors
-
-* **Billie Thompson** - *Initial work* - [PurpleBooth](https://github.com/PurpleBooth)
-
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
-
-## Acknowledgments
-
-* Hat tip to anyone who's code was used
-* Inspiration
-* etc
+En este lenguaje de programación, se espera crear la totalidad de la interfaz final donde se mostrará en ella la unión y funcionamiento de los sensores a utilizar en la estación meteorológica.

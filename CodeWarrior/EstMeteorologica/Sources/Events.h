@@ -42,11 +42,14 @@
 #include "TI2.h"
 #include "PWM2.h"
 #include "Cap1.h"
+#include "PWM3.h"
+#include "PWM4.h"
 
 #define esperar 0
 #define medir 1
 #define enviar 2
 extern unsigned char dato;
+extern word time;
 
 void AD1_OnEnd(void);
 /*

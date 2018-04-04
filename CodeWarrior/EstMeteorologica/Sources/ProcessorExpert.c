@@ -37,6 +37,8 @@
 #include "TI2.h"
 #include "PWM2.h"
 #include "Cap1.h"
+#include "PWM3.h"
+#include "PWM4.h"
 /* Include shared modules, which are used for whole project */
 #include "PE_Types.h"
 #include "PE_Error.h"
@@ -105,10 +107,7 @@ void main(void)
   	  		    			
   	  		  	case medir:
   	  		  		
-  	  		  		//PWM1_Enable();
-  	  		  		
-  	  		  		
-  	  		  		AD1_Measure(TRUE);
+  	  		  		/*AD1_Measure(TRUE);
   	  		  		AD1_GetValue16(&Aux.u16);
   	  		  		Aux.u16 = Aux.u16 >> 4;
   	  		  		ADC1.u16 = Aux.u16 & 0x7F;
@@ -117,8 +116,17 @@ void main(void)
   	  		  		env[0] = 0xF2;
   	  		  		env[1] = ADC2.u16;
   	  		  		env[2] = ADC1.u16;
-  	  		  		/*env[3] = 0x00;
+  	  		  		env[3] = 0x00;
   	  		  		env[4] = 0x00;*/
+  	  		  		
+  	  		  		
+  	  		  		time = time >> 4;
+  	  		  	  	ADC1.u16 = time & 0x7F;
+  	  		  	  	ADC2.u16 = time >> 7;
+  	  		  	  	ADC2.u16 = ADC2.u16 & 0x1F;
+  	  		  	  	env[0] = 0xF2;
+  	  		  	  	env[1] = ADC2.u16;
+  	  		  	  	env[2] = ADC1.u16;
   	  		  		dato = enviar;
 
   	  		  	case enviar:

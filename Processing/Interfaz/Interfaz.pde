@@ -132,6 +132,7 @@ void serialEvent(Serial Port){
         case 3:           // Parados en Byte 2 de Analógico 1.
           con2 = in[i];   // Se obtiene Byte 2.
           buf1.append(decode(con1,con2)); // Guardar decodificación de valores en la lista de analógico 1.
+          println(decode(con1,con2));
           estado = 1;
           break;
           

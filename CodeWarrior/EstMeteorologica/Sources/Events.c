@@ -34,6 +34,7 @@
 /* User includes (#include below this line is not maintained by Processor Expert) */
 
 char countPWM = 0;
+word time;
 
 /*
 ** ===================================================================
@@ -196,15 +197,19 @@ void TI2_OnInterrupt(void)
 	
 		if(countPWM==1){
 			PWM1_Enable();
+			PWM3_Enable();
 		}
 		if(countPWM==2){
 			PWM1_Disable();
+			PWM3_Disable();
 		}
 		if(countPWM==10){
 			PWM2_Enable();
+			PWM4_Enable();
 		}
 		if(countPWM==11){
 			PWM2_Disable();
+			PWM4_Disable();
 		}
 		if(countPWM==18){
 			countPWM = 0;
@@ -229,7 +234,7 @@ void TI2_OnInterrupt(void)
 void Cap1_OnCapture(void)
 {
   /* Write your code here ... */
-	Cap1_GetCaptureValue(&time2);
+	Cap1_GetCaptureValue(&time);
 	Cap1_Reset();
 	
 }

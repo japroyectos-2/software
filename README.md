@@ -22,12 +22,12 @@ En este lenguaje de programación, se hizo una primera "interfaz" en la que se r
 
 En este lenguaje de programación, se programa todo el funcionamiento del microcontrolador que se está utilizando, en este se recibe el valor de la señal adquirida por el bloque de adquisición y se realiza la conversión analógico-digital, luego esta señal es procesada y codificada con el protocolo de información que se desea utilizar para luego ser enviado por vía puerto serial hacia Processing donde se hará la interpretación de la señal para posteriormente ser mostrada en la interfaz.
 
-Para mayor información sobre la documentación del algoritmo utilizado, [**click aquí**]()
+Para mayor información sobre la documentación del algoritmo utilizado, [**click aquí**](https://github.com/japroyectos-2/software/wiki/CodeWarrior)
 
 ### Processing.
 
 En este lenguaje de programación, se espera crear la totalidad de la interfaz gráfica final donde se mostrará en ella la unión y funcionamiento de los sensores a utilizar en la estación meteorológica, así como las características de estos.
 
-Para mayor información sobre la documentación del algoritmo utilizado, [**click aquí**](https://github.com/japroyectos-2/software/wiki/Processing#br%C3%BAjula)
+Para mayor información sobre la documentación del algoritmo utilizado, [**click aquí**](https://github.com/japroyectos-2/software/wiki/Processing)
 
 Agradecimiento al Prof. Novel Certad y al preparador Said Alvarado por los conocimientos impartidos y la buena disposición para la realización de este proyecto, así como a los compañeros que ayudaron en los avances de este.

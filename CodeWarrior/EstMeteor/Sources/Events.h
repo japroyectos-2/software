@@ -5,7 +5,7 @@
 **     Component   : Events
 **     Version     : Driver 01.02
 **     Compiler    : CodeWarrior HCS08 C Compiler
-**     Date/Time   : 2018-03-19, 13:37, # CodeGen: 0
+**     Date/Time   : 2018-04-07, 16:05, # CodeGen: 0
 **     Abstract    :
 **         This is user's event module.
 **         Put your event handler code here.
@@ -37,31 +37,40 @@
 #include "PE_Timer.h"
 #include "TI1.h"
 #include "AS1.h"
-#include "AD1.h"
-#include "PWM1.h"
 #include "TI2.h"
-#include "PWM2.h"
-#include "Cap1.h"
+#include "PWM1.h"
 #include "PWM3.h"
+#include "PWM2.h"
 #include "PWM4.h"
+#include "Cap1.h"
+#include "Cap2.h"
 
 #define esperar 0
 #define medir 1
 #define enviar 2
 extern unsigned char dato;
-extern word time;
 
-void AD1_OnEnd(void);
+extern countPWM;
+
+typedef union{
+	unsigned char u8[3];
+	unsigned int u16;
+}AMPLITUD1;
+
+extern volatile AMPLITUD1 time1, time2, timeAux1, timeAux2;
+//extern int time1, time2, timeAux1, timeAux2;
+
+void TI2_OnInterrupt(void);
 /*
 ** ===================================================================
-**     Event       :  AD1_OnEnd (module Events)
+**     Event       :  TI2_OnInterrupt (module Events)
 **
-**     Component   :  AD1 [ADC]
+**     Component   :  TI2 [TimerInt]
 **     Description :
-**         This event is called after the measurement (which consists
-**         of <1 or more conversions>) is/are finished.
-**         The event is available only when the <Interrupt
-**         service/event> property is enabled.
+**         When a timer interrupt occurs this event is called (only
+**         when the component is enabled - <Enable> and the events are
+**         enabled - <EnableEvent>). This event is enabled only if a
+**         <interrupt service/event> is enabled.
 **     Parameters  : None
 **     Returns     : Nothing
 ** ===================================================================
@@ -154,38 +163,6 @@ void TI1_OnInterrupt(void);
 **         when the component is enabled - <Enable> and the events are
 **         enabled - <EnableEvent>). This event is enabled only if a
 **         <interrupt service/event> is enabled.
-**     Parameters  : None
-**     Returns     : Nothing
-** ===================================================================
-*/
-
-void TI2_OnInterrupt(void);
-/*
-** ===================================================================
-**     Event       :  TI2_OnInterrupt (module Events)
-**
-**     Component   :  TI2 [TimerInt]
-**     Description :
-**         When a timer interrupt occurs this event is called (only
-**         when the component is enabled - <Enable> and the events are
-**         enabled - <EnableEvent>). This event is enabled only if a
-**         <interrupt service/event> is enabled.
-**     Parameters  : None
-**     Returns     : Nothing
-** ===================================================================
-*/
-
-void Cap1_OnCapture(void);
-/*
-** ===================================================================
-**     Event       :  Cap1_OnCapture (module Events)
-**
-**     Component   :  Cap1 [Capture]
-**     Description :
-**         This event is called on capturing of Timer/Counter actual
-**         value (only when the component is enabled - <Enable> and the
-**         events are enabled - <EnableEvent>.This event is available
-**         only if a <interrupt service/event> is enabled.
 **     Parameters  : None
 **     Returns     : Nothing
 ** ===================================================================

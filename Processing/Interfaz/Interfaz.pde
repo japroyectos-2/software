@@ -11,6 +11,8 @@ boolean found;
 IntList buf1, buf2;
 byte con1, con2, con3, con4;
 
+int buffer;
+
 // ************ PINTAR GRID ************
 int estado = 1, lastx = 40, lasty = 600, posx = 40, posy, increm = 50; 
 
@@ -59,8 +61,10 @@ void draw(){
     Compass(); 
         
     // PARA PINTAR ANALÓGICO 1.
-    /*if(buf1.size()>=40){         // Tamaño de la lista para comenzar a pintar.
-      if(posx < 800){
+    //if(buf1.size()>=40){      // Tamaño de la lista para comenzar a pintar.
+    
+      
+      /*if(posx < 800){
         posy = buf1.remove(0);   // Obtiene el primer valor de la lista y lo elimina de esta.
         if(posx == 40){    
           //stroke(255);
@@ -85,9 +89,9 @@ void draw(){
         background(0);
         grid();
         buf1.clear();            // Se vacia la lista.
-      } // else 
-    } // if() 1
-    */
+      } // else */
+    //} // if() 1
+    
     // PARA PINTAR ANALÓGICO 2.
     /*
     if(buf2.size()>=20){
@@ -120,19 +124,25 @@ void serialEvent(Serial Port){
     if(found){
       switch (estado){
         case 1:           // Parados en la cabecera.
-          estado = 2;   
+          estado = 2;
           break;
         
         case 2:           // Parados en Byte 1 de Analógico 1.
           con1 = in[i];   // Se obtiene Byte 1.
+          //print("Byte 1: ");
+          //println(con1);
           // decodificar digitales 1 y 2
           estado = 3;
           break;
           
         case 3:           // Parados en Byte 2 de Analógico 1.
           con2 = in[i];   // Se obtiene Byte 2.
-          buf1.append(decode(con1,con2)); // Guardar decodificación de valores en la lista de analógico 1.
-          println(decode(con1,con2));
+          //print("Byte 2: ");
+          //println(con2);
+          buffer=decode(con1,con2);
+          print("Tiempo1: ");
+          println(buffer);
+          buf1.append(buffer); // Guardar decodificación de valores en la lista de analógico 1.
           estado = 1;
           break;
           
@@ -186,7 +196,7 @@ int decode(byte con1, byte con2){
   aux4 = aux3 | aux4;
   code = aux4 >> 1;
   
-  code = (int)map(code,0,4096,580,60);
+  //code = (int)map(code,0,4096,580,60);
   //println(code);
   return code;
 } // decode()

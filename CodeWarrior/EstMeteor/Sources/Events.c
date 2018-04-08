@@ -5,7 +5,7 @@
 **     Component   : Events
 **     Version     : Driver 01.02
 **     Compiler    : CodeWarrior HCS08 C Compiler
-**     Date/Time   : 2018-03-19, 13:37, # CodeGen: 0
+**     Date/Time   : 2018-04-07, 16:05, # CodeGen: 0
 **     Abstract    :
 **         This is user's event module.
 **         Put your event handler code here.
@@ -32,29 +32,64 @@
 #include "Events.h"
 
 /* User includes (#include below this line is not maintained by Processor Expert) */
-
-char countPWM = 0;
-word time;
+int countPWM = 0;
+//volatile AMPLITUD1 ADC1, ADC2, Aux, time2, time1, timeAux1, timeAux2; 
 
 /*
 ** ===================================================================
-**     Event       :  AD1_OnEnd (module Events)
+**     Event       :  TI2_OnInterrupt (module Events)
 **
-**     Component   :  AD1 [ADC]
+**     Component   :  TI2 [TimerInt]
 **     Description :
-**         This event is called after the measurement (which consists
-**         of <1 or more conversions>) is/are finished.
-**         The event is available only when the <Interrupt
-**         service/event> property is enabled.
+**         When a timer interrupt occurs this event is called (only
+**         when the component is enabled - <Enable> and the events are
+**         enabled - <EnableEvent>). This event is enabled only if a
+**         <interrupt service/event> is enabled.
 **     Parameters  : None
 **     Returns     : Nothing
 ** ===================================================================
 */
-void AD1_OnEnd(void)
+void TI2_OnInterrupt(void)
 {
   /* Write your code here ... */
+	countPWM++;
+		
+	if(countPWM==1){
+		PWM1_Enable();
+		PWM3_Enable();
+	}
+	if(countPWM==2){
+		PWM1_Disable();
+		PWM3_Disable();
+		//Cap1_Enable();
+		//Cap1_GetCaptureValue(&timeAux1.u16);
+		//Cap1_Reset();
+		//if(timeAux1.u16 != 0){
+		//if((timeAux1 > 1200) && (timeAux1 < 1800)){
+		//	time1.u16 = timeAux1.u16;
+		//}
+	}
+	if(countPWM==10){
+		//Cap1_Disable();
+		PWM2_Enable();
+		PWM4_Enable();
+	}
+	if(countPWM==11){
+		PWM2_Disable();
+		PWM4_Disable();
+		//Cap2_Enable();
+		//Cap2_GetCaptureValue(&timeAux2.u16);
+		//Cap2_Reset();
+		//if(timeAux2.u16 != 0){
+		//if((timeAux2 > 1200) && (timeAux2 < 1800)){
+		//	time2.u16 = timeAux2.u16;
+		//}
+	}
+	if(countPWM==18){
+		//Cap2_Disable();
+		countPWM = 0;
+	}	
 }
-
 
 /*
 ** ===================================================================
@@ -164,79 +199,9 @@ void  AS1_OnFreeTxBuf(void)
 void TI1_OnInterrupt(void)
 {
   /* Write your code here ... */
-		// PARA EL POTENCIOMETRO
-			if(dato==esperar){
-				dato=medir;
-			} 
-				
-			/* PARA ENVIAR UN CARACTER O UN BLOQUE POR SERIAL
-			if(dato==esperar){
-				dato=enviar;
-			} */
-	
-}
-
-/*
-** ===================================================================
-**     Event       :  TI2_OnInterrupt (module Events)
-**
-**     Component   :  TI2 [TimerInt]
-**     Description :
-**         When a timer interrupt occurs this event is called (only
-**         when the component is enabled - <Enable> and the events are
-**         enabled - <EnableEvent>). This event is enabled only if a
-**         <interrupt service/event> is enabled.
-**     Parameters  : None
-**     Returns     : Nothing
-** ===================================================================
-*/
-void TI2_OnInterrupt(void)
-{
-  /* Write your code here ... */
-	countPWM++;
-	
-		if(countPWM==1){
-			PWM1_Enable();
-			PWM3_Enable();
-		}
-		if(countPWM==2){
-			PWM1_Disable();
-			PWM3_Disable();
-		}
-		if(countPWM==10){
-			PWM2_Enable();
-			PWM4_Enable();
-		}
-		if(countPWM==11){
-			PWM2_Disable();
-			PWM4_Disable();
-		}
-		if(countPWM==18){
-			countPWM = 0;
-		}
-				
-}
-
-/*
-** ===================================================================
-**     Event       :  Cap1_OnCapture (module Events)
-**
-**     Component   :  Cap1 [Capture]
-**     Description :
-**         This event is called on capturing of Timer/Counter actual
-**         value (only when the component is enabled - <Enable> and the
-**         events are enabled - <EnableEvent>.This event is available
-**         only if a <interrupt service/event> is enabled.
-**     Parameters  : None
-**     Returns     : Nothing
-** ===================================================================
-*/
-void Cap1_OnCapture(void)
-{
-  /* Write your code here ... */
-	Cap1_GetCaptureValue(&time);
-	Cap1_Reset();
-	
+	if(dato==esperar){
+		dato=medir;
+	} 
 }
 
 /* END Events */

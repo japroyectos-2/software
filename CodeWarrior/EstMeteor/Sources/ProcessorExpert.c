@@ -4,7 +4,7 @@
 **     Processor   : MC9S08QE128CLK
 **     Version     : Driver 01.12
 **     Compiler    : CodeWarrior HCS08 C Compiler
-**     Date/Time   : 2018-03-19, 13:37, # CodeGen: 0
+**     Date/Time   : 2018-04-07, 16:05, # CodeGen: 0
 **     Abstract    :
 **         Main module.
 **         This module contains user's application code.
@@ -32,13 +32,13 @@
 #include "Events.h"
 #include "TI1.h"
 #include "AS1.h"
-#include "AD1.h"
-#include "PWM1.h"
 #include "TI2.h"
-#include "PWM2.h"
-#include "Cap1.h"
+#include "PWM1.h"
 #include "PWM3.h"
+#include "PWM2.h"
 #include "PWM4.h"
+#include "Cap1.h"
+#include "Cap2.h"
 /* Include shared modules, which are used for whole project */
 #include "PE_Types.h"
 #include "PE_Error.h"
@@ -46,33 +46,21 @@
 #include "IO_Map.h"
 
 /* User includes (#include below this line is not maintained by Processor Expert) */
-/* PARA ENVIAR UN BLOQUE POR SERIAL
-
-unsigned int Enviados = 8;
-
-typedef union{
-	unsigned char u8[8];
-	unsigned int u16;
-}AMPLITUD;
-
-volatile AMPLITUD bloque; 
-
-*/
-
-
-//	PARA EL POTENCIOMETRO
 
 unsigned int envioS = 2;
 unsigned int envioP = 5;
  
-typedef union{
-	unsigned char u8[3];
-	unsigned int u16;
-}AMPLITUD1;
+//typedef union{
+//	unsigned char u8[3];
+//	unsigned int u16;
+//}AMPLITUD1;
 
-volatile AMPLITUD1 ADC1, ADC2, Aux; 
+volatile AMPLITUD1 ADC1, ADC2, Aux, time2, time1, timeAux1, timeAux2; 
+//volatile AMPLITUD2 time1, time2, timeAux1, timeAux2;
 
 unsigned char env[5];
+
+//int time1 = 0, time2 = 0, timeAux1 = 0, timeAux2 = 0;
 
 void main(void)
 {
@@ -84,75 +72,49 @@ void main(void)
 
   /* Write your code here */
   /* For example: for(;;) { } */
-  
   dato = esperar;
-    	//  dato = enviar;                          // PARA ENVIAR UN CARACTER O UN BLOQUE POR SERIAL
-    	/* PARA ENVIAR UN BLOQUE POR SERIAL
-    	bloque.u8[0]=0x4A;
-    	bloque.u8[1]=0x65;
-    	bloque.u8[2]=0x63;
-    	bloque.u8[3]=0x6B;
-    	bloque.u8[4]=0x73;
-    	bloque.u8[5]=0x6F;  
-    	bloque.u8[6]=0x6E;
-    	bloque.u8[7]=0x20; */
-    
-    for(;;){
-  	  
-  	  //   	PARA EL POTENCIOMETRO 	  
-  	  		switch (dato){
-  	  		    		
-  	  			case esperar:
-  	  				break;
-  	  		    			
-  	  		  	case medir:
-  	  		  		
-  	  		  		/*AD1_Measure(TRUE);
-  	  		  		AD1_GetValue16(&Aux.u16);
-  	  		  		Aux.u16 = Aux.u16 >> 4;
-  	  		  		ADC1.u16 = Aux.u16 & 0x7F;
-  	  		  		ADC2.u16 = Aux.u16 >> 7;
-  	  		  		ADC2.u16 = ADC2.u16 & 0x1F;
-  	  		  		env[0] = 0xF2;
-  	  		  		env[1] = ADC2.u16;
-  	  		  		env[2] = ADC1.u16;
-  	  		  		env[3] = 0x00;
-  	  		  		env[4] = 0x00;*/
-  	  		  		
-  	  		  		
-  	  		  		time = time >> 4;
-  	  		  	  	ADC1.u16 = time & 0x7F;
-  	  		  	  	ADC2.u16 = time >> 7;
-  	  		  	  	ADC2.u16 = ADC2.u16 & 0x1F;
-  	  		  	  	env[0] = 0xF2;
-  	  		  	  	env[1] = ADC2.u16;
-  	  		  	  	env[2] = ADC1.u16;
-  	  		  		dato = enviar;
+  
+  for(;;){
+	  
+	  switch (dato){
+	    	  		    		
+	  	  case esperar:
+	  		  break;
+	    	  		    			
+	  	  case medir:
+	    	    		
+	    	  /*AD1_Measure(TRUE);
+	    	  AD1_GetValue16(&Aux.u16);
+	    	  Aux.u16 = Aux.u16 >> 4;
+	    	  ADC1.u16 = Aux.u16 & 0x7F;
+	    	  ADC2.u16 = Aux.u16 >> 7;
+	    	  ADC2.u16 = ADC2.u16 & 0x1F;
+	    	  env[0] = 0xF2;
+	    	  env[1] = ADC2.u16;
+	    	  env[2] = ADC1.u16;
+	    	  env[3] = 0x00;
+	    	  env[4] = 0x00;*/
+	    	  		  			  		
+	    	  time2.u16 = time2.u16 >> 4;
+	    	  ADC1.u16 = time2.u16 & 0x7F;
+	    	  ADC2.u16 = time2.u16 >> 7;
+	    	  ADC2.u16 = ADC2.u16 & 0x1F;
+	    	  env[0] = 0xF2;
+	    	  env[1] = ADC2.u16;
+	    	  env[2] = ADC1.u16;
+	    	  dato = enviar;
 
-  	  		  	case enviar:
-  	  		  		//AS1_SendBlock(&Aux.u8,2,&envioS);   // Mandar valor sin protocolo
-  	  		  		AS1_SendBlock(&env,3,&envioP);    // Mandar valor con protocolo
-  	  		  		dato = esperar;
-  	  		  		  
-  	  		  	default:
-  	  		  		break;
-  	  		    	
-  	  		}  
-  	  		  
-  	  /* PARA ENVIAR UN CARACTER Y UN BLOQUE POR SERIAL
-  	  		switch (dato) {
-  	  			case enviar:
-  	  		    	//AS1_SendChar(0x42);       // PARA ENVIAR UN CARACTER POR SERIAL
-  	  		  		AS1_SendBlock(&bloque.u8,8,&Enviados);  // PARA ENVIAR UN BLOQUE POR SERIAL
-  	  		  		dato=esperar;
-  	  		  		  
-  	  		case esperar:
-  	  		  	break;
-
-  	  		}*/
-  	  
-    }
-
+	      case enviar:
+	    	  //AS1_SendBlock(&Aux.u8,2,&envioS);   // Mandar valor sin protocolo
+	    	  AS1_SendBlock(&env,3,&envioP);    // Mandar valor con protocolo
+	    	  dato = esperar;
+	    	  		  		  
+	      default:
+	    	  break;
+	    	  		    	
+	  }  
+	  
+  }
   /*** Don't write any code pass this line, or it will be deleted during code generation. ***/
   /*** Processor Expert end of main routine. DON'T MODIFY THIS CODE!!! ***/
   for(;;){}

@@ -838,7 +838,7 @@ asm(BGND);
         <Interrupt v="Vtpm1ch0" />
         <Interrupt_priority v="medium priority" />
       </boolgroup>
-      <Interrupt_period v="5 &amp;#181;s" />
+      <Interrupt_period v="10 &amp;#181;s" />
       <Same_period_in_modes v="yes" />
       <Component_uses_entire_timer v="no" />
       <group name="Initialization">
@@ -1244,7 +1244,7 @@ asm(BGND);
     </Events>
   </Bean>
   <Bean name="Bit1" type="BitIO">
-    <Enabled v="Y" />
+    <Enabled v="N" />
     <Properties>
       <Component_name v="Bit1" />
       <Pin_for_I_O v="PTA6_TPM1CH2_ADP8" />
@@ -1287,7 +1287,7 @@ push-pull
     </Events>
   </Bean>
   <Bean name="Bit2" type="BitIO">
-    <Enabled v="Y" />
+    <Enabled v="N" />
     <Properties>
       <Component_name v="Bit2" />
       <Pin_for_I_O v="PTB5_TPM1CH1_SS1" />
@@ -1327,6 +1327,106 @@ push-pull
     </Methods>
     <Events>
       <EmptySection_DummyValue />
+    </Events>
+  </Bean>
+  <Bean name="Cap1" type="Capture">
+    <Enabled v="Y" />
+    <Properties>
+      <Component_name v="Cap1" />
+      <Capture_device v="TPM11" />
+      <Counter v="TPM1" />
+      <Capture_input_pin v="PTB5_TPM1CH1_SS1" />
+      <Capture_input_signal v="" />
+      <Pull_resistor sel_value="no pull resistor">
+        
+autoselected pull
+
+        <EmptySection_DummyValue />
+      </Pull_resistor>
+      <Edge sel_value="rising edge">
+        
+rising or falling edge
+
+        <EmptySection_DummyValue />
+      </Edge>
+      <boolgroup name="Interrupt service/event" v="Disabled" />
+      <Maximum_time_of_event v="45 ms" />
+      <group name="Initialization">
+        <Enabled_in_init__code v="yes" />
+        <Events_enabled_in_init_ v="yes" />
+      </group>
+      <group name="CPU clock/speed selection">
+        <High_speed_mode v="This component enabled" />
+        <Low_speed_mode v="This component disabled" />
+        <Slow_speed_mode v="This component disabled" />
+      </group>
+    </Properties>
+    <Methods>
+      <Enable v="generate code" />
+      <Disable v="generate code" />
+      <EnableEvent v="don&amp;apos;t generate code" />
+      <DisableEvent v="don&amp;apos;t generate code" />
+      <Reset v="generate code" />
+      <GetCaptureValue v="generate code" />
+      <GetStatus v="don&amp;apos;t generate code" />
+      <GetPinValue v="don&amp;apos;t generate code" />
+    </Methods>
+    <Events>
+      <Event_module_name v="Events" />
+      <event name="BeforeNewSpeed" v="don&amp;apos;t generate code" />
+      <event name="AfterNewSpeed" v="don&amp;apos;t generate code" />
+      <event name="OnCapture" v="don&amp;apos;t generate code" />
+      <event name="OnOverflow" v="don&amp;apos;t generate code" />
+    </Events>
+  </Bean>
+  <Bean name="Cap2" type="Capture">
+    <Enabled v="Y" />
+    <Properties>
+      <Component_name v="Cap2" />
+      <Capture_device v="TPM12" />
+      <Counter v="TPM1" />
+      <Capture_input_pin v="PTA6_TPM1CH2_ADP8" />
+      <Capture_input_signal v="" />
+      <Pull_resistor sel_value="no pull resistor">
+        
+autoselected pull
+
+        <EmptySection_DummyValue />
+      </Pull_resistor>
+      <Edge sel_value="rising edge">
+        
+rising or falling edge
+
+        <EmptySection_DummyValue />
+      </Edge>
+      <boolgroup name="Interrupt service/event" v="Disabled" />
+      <Maximum_time_of_event v="45 ms" />
+      <group name="Initialization">
+        <Enabled_in_init__code v="yes" />
+        <Events_enabled_in_init_ v="yes" />
+      </group>
+      <group name="CPU clock/speed selection">
+        <High_speed_mode v="This component enabled" />
+        <Low_speed_mode v="This component disabled" />
+        <Slow_speed_mode v="This component disabled" />
+      </group>
+    </Properties>
+    <Methods>
+      <Enable v="generate code" />
+      <Disable v="generate code" />
+      <EnableEvent v="don&amp;apos;t generate code" />
+      <DisableEvent v="don&amp;apos;t generate code" />
+      <Reset v="generate code" />
+      <GetCaptureValue v="generate code" />
+      <GetStatus v="don&amp;apos;t generate code" />
+      <GetPinValue v="don&amp;apos;t generate code" />
+    </Methods>
+    <Events>
+      <Event_module_name v="Events" />
+      <event name="BeforeNewSpeed" v="don&amp;apos;t generate code" />
+      <event name="AfterNewSpeed" v="don&amp;apos;t generate code" />
+      <event name="OnCapture" v="don&amp;apos;t generate code" />
+      <event name="OnOverflow" v="don&amp;apos;t generate code" />
     </Events>
   </Bean>
 </PE_PROJECT_SETTINGS_DOCUMENTATION>

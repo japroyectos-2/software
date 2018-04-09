@@ -32,8 +32,10 @@
 #include "Events.h"
 
 /* User includes (#include below this line is not maintained by Processor Expert) */
-int countPWM = 0, countT1 = 0, countTime1 = 0, countTime2 = 0, signal = 0;
+int countPWM = 0; //countT1 = 0, countTime1 = 0, countTime2 = 0, signal = 0;
 int pwm1Error, pwm2Error, pwm3Error, pwm4Error;
+extern unsigned int time1, time2;
+
 
 //volatile AMPLITUD1 ADC1, ADC2, Aux, time2, time1, timeAux1, timeAux2; 
 
@@ -63,36 +65,28 @@ void TI2_OnInterrupt(void)
 	if(countPWM==2){
 		pwm1Error = PWM1_Disable();
 		pwm3Error = PWM3_Disable();
-		signal = 1;
-		//Cap1_Enable();
-		//Cap1_GetCaptureValue(&timeAux1.u16);
-		//Cap1_Reset();
-		//if(timeAux1.u16 != 0){
-		//if((timeAux1 > 1200) && (timeAux1 < 1800)){
-		//	time1.u16 = timeAux1.u16;
-		//}
+		Cap2_Enable();
+		Cap2_GetCaptureValue(&time1);
+		Cap2_Reset();
+		//signal = 1;
 	}
 	if(countPWM==10){
-		//Cap1_Disable();
+		Cap2_Disable();
 		pwm2Error = PWM2_Enable();
 		pwm4Error = PWM4_Enable();
 	}
 	if(countPWM==11){
 		pwm2Error = PWM2_Disable();
 		pwm4Error = PWM4_Disable();
-		signal = 2;
-		//Cap2_Enable();
-		//Cap2_GetCaptureValue(&timeAux2.u16);
-		//Cap2_Reset();
-		//if(timeAux2.u16 != 0){
-		//if((timeAux2 > 1200) && (timeAux2 < 1800)){
-		//	time2.u16 = timeAux2.u16;
-		//}
+		Cap1_Enable();
+		Cap1_GetCaptureValue(&time2);
+		Cap1_Reset();
+		//signal = 2;
 	}
 	if(countPWM==18){
-		//Cap2_Disable();
+		Cap1_Disable();
 		countPWM = 0;
-	}	
+	}		
 }
 
 /*
@@ -203,7 +197,7 @@ void  AS1_OnFreeTxBuf(void)
 void TI1_OnInterrupt(void)
 {
   /* Write your code here ... */
-	countT1++;
+/*	countT1++;
 	
 	if(signal == 1){
 		countTime1++;
@@ -221,12 +215,12 @@ void TI1_OnInterrupt(void)
 			signal = 0;
 		}
 	}
-	if(countT1 == 50){
+	if(countT1 == 50){*/
 		if(dato==esperar){
 			dato=medir;
-			countT1 = 0;
+//			countT1 = 0;
 		} 		
-	}
+//	}
 }
 
 /* END Events */

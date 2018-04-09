@@ -7,8 +7,8 @@
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS_QUOTED += \
 "../Generated_Code/AS1.c" \
-"../Generated_Code/Bit1.c" \
-"../Generated_Code/Bit2.c" \
+"../Generated_Code/Cap1.c" \
+"../Generated_Code/Cap2.c" \
 "../Generated_Code/Cpu.c" \
 "../Generated_Code/IO_Map.c" \
 "../Generated_Code/PE_Timer.c" \
@@ -22,8 +22,8 @@ C_SRCS_QUOTED += \
 
 C_SRCS += \
 ../Generated_Code/AS1.c \
-../Generated_Code/Bit1.c \
-../Generated_Code/Bit2.c \
+../Generated_Code/Cap1.c \
+../Generated_Code/Cap2.c \
 ../Generated_Code/Cpu.c \
 ../Generated_Code/IO_Map.c \
 ../Generated_Code/PE_Timer.c \
@@ -37,8 +37,8 @@ C_SRCS += \
 
 OBJS += \
 ./Generated_Code/AS1_c.obj \
-./Generated_Code/Bit1_c.obj \
-./Generated_Code/Bit2_c.obj \
+./Generated_Code/Cap1_c.obj \
+./Generated_Code/Cap2_c.obj \
 ./Generated_Code/Cpu_c.obj \
 ./Generated_Code/IO_Map_c.obj \
 ./Generated_Code/PE_Timer_c.obj \
@@ -52,8 +52,8 @@ OBJS += \
 
 OBJS_QUOTED += \
 "./Generated_Code/AS1_c.obj" \
-"./Generated_Code/Bit1_c.obj" \
-"./Generated_Code/Bit2_c.obj" \
+"./Generated_Code/Cap1_c.obj" \
+"./Generated_Code/Cap2_c.obj" \
 "./Generated_Code/Cpu_c.obj" \
 "./Generated_Code/IO_Map_c.obj" \
 "./Generated_Code/PE_Timer_c.obj" \
@@ -67,8 +67,8 @@ OBJS_QUOTED += \
 
 C_DEPS += \
 ./Generated_Code/AS1_c.d \
-./Generated_Code/Bit1_c.d \
-./Generated_Code/Bit2_c.d \
+./Generated_Code/Cap1_c.d \
+./Generated_Code/Cap2_c.d \
 ./Generated_Code/Cpu_c.d \
 ./Generated_Code/IO_Map_c.d \
 ./Generated_Code/PE_Timer_c.d \
@@ -82,8 +82,8 @@ C_DEPS += \
 
 C_DEPS_QUOTED += \
 "./Generated_Code/AS1_c.d" \
-"./Generated_Code/Bit1_c.d" \
-"./Generated_Code/Bit2_c.d" \
+"./Generated_Code/Cap1_c.d" \
+"./Generated_Code/Cap2_c.d" \
 "./Generated_Code/Cpu_c.d" \
 "./Generated_Code/IO_Map_c.d" \
 "./Generated_Code/PE_Timer_c.d" \
@@ -97,8 +97,8 @@ C_DEPS_QUOTED += \
 
 OBJS_OS_FORMAT += \
 ./Generated_Code/AS1_c.obj \
-./Generated_Code/Bit1_c.obj \
-./Generated_Code/Bit2_c.obj \
+./Generated_Code/Cap1_c.obj \
+./Generated_Code/Cap2_c.obj \
 ./Generated_Code/Cpu_c.obj \
 ./Generated_Code/IO_Map_c.obj \
 ./Generated_Code/PE_Timer_c.obj \
@@ -125,19 +125,19 @@ Generated_Code/%.d: ../Generated_Code/%.c
 	
 	@echo ' '
 
-Generated_Code/Bit1_c.obj: ../Generated_Code/Bit1.c
+Generated_Code/Cap1_c.obj: ../Generated_Code/Cap1.c
 	@echo 'Building file: $<'
 	@echo 'Executing target #5 $<'
 	@echo 'Invoking: HCS08 Compiler'
-	"$(HC08ToolsEnv)/chc08" -ArgFile"Generated_Code/Bit1.args" -ObjN="Generated_Code/Bit1_c.obj" "$<" -Lm="$(@:%.obj=%.d)" -LmCfg=xilmou
+	"$(HC08ToolsEnv)/chc08" -ArgFile"Generated_Code/Cap1.args" -ObjN="Generated_Code/Cap1_c.obj" "$<" -Lm="$(@:%.obj=%.d)" -LmCfg=xilmou
 	@echo 'Finished building: $<'
 	@echo ' '
 
-Generated_Code/Bit2_c.obj: ../Generated_Code/Bit2.c
+Generated_Code/Cap2_c.obj: ../Generated_Code/Cap2.c
 	@echo 'Building file: $<'
 	@echo 'Executing target #6 $<'
 	@echo 'Invoking: HCS08 Compiler'
-	"$(HC08ToolsEnv)/chc08" -ArgFile"Generated_Code/Bit2.args" -ObjN="Generated_Code/Bit2_c.obj" "$<" -Lm="$(@:%.obj=%.d)" -LmCfg=xilmou
+	"$(HC08ToolsEnv)/chc08" -ArgFile"Generated_Code/Cap2.args" -ObjN="Generated_Code/Cap2_c.obj" "$<" -Lm="$(@:%.obj=%.d)" -LmCfg=xilmou
 	@echo 'Finished building: $<'
 	@echo ' '
 

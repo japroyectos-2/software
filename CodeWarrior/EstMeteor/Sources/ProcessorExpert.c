@@ -37,8 +37,8 @@
 #include "PWM3.h"
 #include "PWM2.h"
 #include "PWM4.h"
-#include "Bit1.h"
-#include "Bit2.h"
+#include "Cap1.h"
+#include "Cap2.h"
 /* Include shared modules, which are used for whole project */
 #include "PE_Types.h"
 #include "PE_Error.h"
@@ -47,16 +47,17 @@
 
 /* User includes (#include below this line is not maintained by Processor Expert) */
 
-unsigned int envioS = 2;
+//unsigned int envioS = 2;
 unsigned int envioP = 5;
  
-//typedef union{
-//	unsigned char u8[3];
-//	unsigned int u16;
-//}AMPLITUD1;
+typedef union{
+	unsigned char u8[3];
+	unsigned int u16;
+}AMPLITUD1;
 
-volatile AMPLITUD1 ADC1, ADC2, Aux, time2, time1; 
+volatile AMPLITUD1 ADC1, ADC2, ADC3, ADC4; 
 //volatile AMPLITUD2 time1, time2, timeAux1, timeAux2;
+unsigned int time1, time2, timeAux;
 
 unsigned char env[5];
 
@@ -83,26 +84,31 @@ void main(void)
 	    	  		    			
 	  	  case medir:
 	    	    		
-	    	  /*AD1_Measure(TRUE);
-	    	  AD1_GetValue16(&Aux.u16);
-	    	  Aux.u16 = Aux.u16 >> 4;
-	    	  ADC1.u16 = Aux.u16 & 0x7F;
-	    	  ADC2.u16 = Aux.u16 >> 7;
-	    	  ADC2.u16 = ADC2.u16 & 0x1F;
-	    	  env[0] = 0xF2;
-	    	  env[1] = ADC2.u16;
-	    	  env[2] = ADC1.u16;
-	    	  env[3] = 0x00;
-	    	  env[4] = 0x00;*/
-	    	  		  			  		
-	    	  time2.u16 = time2.u16 >> 4;
-	    	  ADC1.u16 = time2.u16 & 0x7F;
-	    	  ADC2.u16 = time2.u16 >> 7;
-	    	  ADC2.u16 = ADC2.u16 & 0x1F;
-	    	  env[0] = 0xF2;
-	    	  env[1] = ADC2.u16;
-	    	  env[2] = ADC1.u16;
-	    	  dato = enviar;
+	  		  time1 = time1 >> 4;
+	  		  ADC1.u16 = time1 & 0x7F;
+	  		  ADC2.u16 = time1 >> 7;
+	  		  ADC2.u16 = ADC2.u16 & 0x1F;
+	  			    	  
+	      	  time2 = time2 >> 4;
+	      	  ADC3.u16 = time2 & 0x7F;
+	      	  ADC4.u16 = time2 >> 7;
+	      	  ADC4.u16 = ADC4.u16 & 0x1F;
+	  			    	  
+	  	   	  /*AD1_Measure(TRUE);
+	  	  	  AD1_GetValue16(&Aux.u16);
+	  	   	  Aux.u16 = Aux.u16 >> 4;
+	  	   	  ADC5.u16 = Aux.u16 & 0x7F;
+	  		  ADC6.u16 = Aux.u16 >> 7;
+	  	 	  ADC6.u16 = ADC6.u16 & 0x1F;*/
+	  			    	  
+	  	   	  env[0] = 0xF2;
+	      	  env[1] = ADC2.u16;
+	  		  env[2] = ADC1.u16;
+	  	   	  env[3] = ADC4.u16;
+	      	  env[4] = ADC3.u16;
+	  		  /*env[5] = ADC6.u16;
+	  		  env[6] = ADC5.u16;*/
+	  		  dato = enviar;
 
 	      case enviar:
 	    	  //AS1_SendBlock(&Aux.u8,2,&envioS);   // Mandar valor sin protocolo

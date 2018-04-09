@@ -102,23 +102,15 @@ Module "PWM4"      (component PWM)
                 16-bit unsigned integer number. The method is available only if it is not selected list of predefined values in 
                 <Starting pulse width> property.
 
-Module "Cap1"      (component Capture)
-   - Cap1_Enable -This method enables the component - it starts the capture. Events may be generated 
-                (<DisableEvent>/<EnableEvent>).
-   - Cap1_Disable -This method disables the component - it stops the capture. No events will be generated.
-   - Cap1_Reset -This method resets the counter register (see implementation note in <General Info>).
-   - Cap1_GetCaptureValue -This method gets the last value captured by enabled timer (see implementation note in <General Info>)
-                . The method does not return valid value after initialization or after <Reset> until new capture event (even if 
-                the returned Error code is ERR_OK).
+Module "Bit1"      (component BitIO)
+   - Bit1_GetVal -Returns the input/output value. If the direction is [input] then the input value of the pin is read and 
+                returned. If the direction is [output] then the last written value is returned (see <Safe mode> property for 
+                limitations). This method cannot be disabled if direction is [input].
 
-Module "Cap2"      (component Capture)
-   - Cap2_Enable -This method enables the component - it starts the capture. Events may be generated 
-                (<DisableEvent>/<EnableEvent>).
-   - Cap2_Disable -This method disables the component - it stops the capture. No events will be generated.
-   - Cap2_Reset -This method resets the counter register (see implementation note in <General Info>).
-   - Cap2_GetCaptureValue -This method gets the last value captured by enabled timer (see implementation note in <General Info>)
-                . The method does not return valid value after initialization or after <Reset> until new capture event (even if 
-                the returned Error code is ERR_OK).
+Module "Bit2"      (component BitIO)
+   - Bit2_GetVal -Returns the input/output value. If the direction is [input] then the input value of the pin is read and 
+                returned. If the direction is [output] then the last written value is returned (see <Safe mode> property for 
+                limitations). This method cannot be disabled if direction is [input].
 
 Module "Cpu"       (component MC9S08QE128_80)
    - Cpu_EnableInt -Enables maskable interrupts

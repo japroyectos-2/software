@@ -13,6 +13,12 @@ byte con1, con2, con3, con4;
 
 int buffer;
 
+// ************ ANEMÓMETRO ************
+
+float distance = 0.26;
+float time = 0.000758, time1 = 0.000758, time2 = 0.000758; 
+float v, vx, vy, angle, sound, temperature;
+
 // ************ PINTAR GRID ************
 int estado = 1, lastx = 40, lasty = 600, posx = 40, posy, increm = 50; 
 
@@ -57,7 +63,7 @@ void draw(){
     text("Estación Meteorológica", 230, 35);    
     
     thermometer();
-    GetDegValue();
+    //GetDegValue();
     Compass(); 
         
     // PARA PINTAR ANALÓGICO 1.
@@ -129,19 +135,17 @@ void serialEvent(Serial Port){
         
         case 2:           // Parados en Byte 1 de Analógico 1.
           con1 = in[i];   // Se obtiene Byte 1.
-          //print("Byte 1: ");
-          //println(con1);
-          // decodificar digitales 1 y 2
           estado = 3;
           break;
           
         case 3:           // Parados en Byte 2 de Analógico 1.
           con2 = in[i];   // Se obtiene Byte 2.
-          //print("Byte 2: ");
-          //println(con2);
           buffer=decode(con1,con2);
-          print("Tiempo1: ");
-          println(buffer);
+          parameters(time, time1, time2);
+          if(buffer != 0){
+            print("Tiempo1: ");
+            println(buffer);
+          }
           buf1.append(buffer); // Guardar decodificación de valores en la lista de analógico 1.
           estado = 1;
           break;
@@ -195,11 +199,31 @@ int decode(byte con1, byte con2){
   aux4 = aux2 & 0x00FF;
   aux4 = aux3 | aux4;
   code = aux4 >> 1;
-  
-  //code = (int)map(code,0,4096,580,60);
-  //println(code);
+
   return code;
 } // decode()
+
+void parameters(float tiempo, float tiempo1, float tiempo2){
+
+  vx = (distance*(tiempo1-tiempo))/(2*tiempo1*tiempo);
+  vy = (distance*(tiempo2-tiempo))/(2*tiempo2*tiempo);
+  v = sqrt(pow(vx,2)+pow(vy,2));
+  
+  if(tiempo1>tiempo && tiempo2<tiempo){
+    angle = ((180*(atan(vy/vx)))/PI) + 180;
+  }
+  if(tiempo1<tiempo && tiempo2>tiempo){
+    angle = ((180*(atan(vy/vx)))/PI);  
+  }
+  if(tiempo1>tiempo && tiempo2>tiempo){
+    angle = ((180*(atan(vy/vx)))/PI) + 180;  
+  }
+  if(tiempo1<tiempo && tiempo2<tiempo){
+    angle = ((180*(atan(vy/vx)))/PI);
+  }  
+  temperature = (pow((distance*(tiempo1+tiempo))/(40*tiempo1*tiempo),2)) - 273;
+  sound = (distance*(tiempo1+tiempo))/(2*tiempo1*tiempo);
+}
 
 void backgroudBlue()
 {
@@ -220,7 +244,7 @@ void backgroudRed(){
     
     fill(255);
     textSize(40);
-    text("HA OCURRIDO UN SISMO",160,620);
+    text("HA OCURRIDO UN SISMO",160,640);
     
     sismo = false;
   } 
@@ -251,17 +275,6 @@ void grid(){
 }
 
 // ************ BRÚJULA ************
-
-void GetDegValue()
-{
-  v2= new PVector(); 
-  v1= new PVector(W/2, H/2); 
-  v2.x=mouseX; 
-  v2.y=mouseY; 
-  Bank = PVector.angleBetween(v1, v2); 
-  Pitch=mouseY-H/2; 
-  Azimuth=(180/PI*10*Bank)%360; // ************ VALOR DE LA DIRECCIÓN ************
-}  
 
 void Compass() 
 { 
@@ -314,7 +327,7 @@ void Compass()
 
 void CompassPointer() 
 { 
-  rotate(PI+radians(Azimuth));  
+  rotate(PI+radians(angle));  
   stroke(0); 
   strokeWeight(4); 
   fill(100, 255, 100); 
@@ -326,7 +339,7 @@ void CompassPointer()
   ellipse(0, 0, 10, 10); 
   triangle(-20, -213, 20, -213, 0, -190); 
   triangle(-15, -215, 15, -215, 0, -200); 
-  rotate(-PI-radians(Azimuth)); 
+  rotate(-PI-radians(angle)); 
 }
 
 void CircularScale() 
@@ -381,12 +394,13 @@ void CircularScale()
 
 void showDegreesB() 
 { 
-  int Azimuth1=round(Azimuth); 
+  int angle1=round(angle); 
   textAlign(CORNER); 
   textSize(35); 
   fill(255); 
-  text("Degrees:  "+Azimuth1+"°", 90, 477, 500, 60); 
-  text("Wind Speed: "+Azimuth1+" m/s", 90, 520, 500, 60);
+  text("Degrees:  "+angle1+"°", 90, 477, 500, 60); 
+  text("Wind Speed: "+v+" m/s", 90, 520, 500, 60);
+  text("Sound Speed: "+sound+" m/s", 90, 570, 500, 60);
 }
 
 // ************ TERMOMETRO ************
@@ -394,7 +408,8 @@ void showDegreesB()
 void thermometer()
 {
  int i;
- int N=round(Azimuth);   // VALOR DE 0 A 380.
+ int N = (int)map(temperature,-59,86,380,0);
+ 
  scale(ThermometerMagnificationFactor); 
 
  //fill background in gray
@@ -411,26 +426,21 @@ void thermometer()
  rect(690,450,50,10); // RELLENO
  
  //quicksilver
- rect(690, 70+N, 50, 380-N);
+ rect(690, 70+N, 50, 380-N);  // PINTA EL VALOR EN GRADOS.
  
  fill(0);
  for(i=1;i<=13;i++){
    rect(700,(i*30+40),40,3); // RELLENO
  }
-
  ShowDegreesT();
- //define stroke
- //stroke (255,0,0);
- //strokeWeight(2);
-  
 }
 
 void ShowDegreesT() 
 { 
-  int Azimuth1=round(Azimuth); 
+  int temperature1=round(temperature); 
   textAlign(CORNER);   
   textSize(21); 
   fill(255); 
-  text("Degrees:  "+Azimuth1+"°C", 600, 575, 500, 60); 
+  text("Degrees:  "+temperature1+"°C", 650, 575, 500, 60); 
 }
   

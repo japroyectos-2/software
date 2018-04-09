@@ -37,8 +37,8 @@
 #include "PWM3.h"
 #include "PWM2.h"
 #include "PWM4.h"
-#include "Cap1.h"
-#include "Cap2.h"
+#include "Bit1.h"
+#include "Bit2.h"
 /* Include shared modules, which are used for whole project */
 #include "PE_Types.h"
 #include "PE_Error.h"
@@ -55,7 +55,7 @@ unsigned int envioP = 5;
 //	unsigned int u16;
 //}AMPLITUD1;
 
-volatile AMPLITUD1 ADC1, ADC2, Aux, time2, time1, timeAux1, timeAux2; 
+volatile AMPLITUD1 ADC1, ADC2, Aux, time2, time1; 
 //volatile AMPLITUD2 time1, time2, timeAux1, timeAux2;
 
 unsigned char env[5];

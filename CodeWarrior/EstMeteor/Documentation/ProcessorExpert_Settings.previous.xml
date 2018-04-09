@@ -838,7 +838,7 @@ asm(BGND);
         <Interrupt v="Vtpm1ch0" />
         <Interrupt_priority v="medium priority" />
       </boolgroup>
-      <Interrupt_period v="0.5 ms" />
+      <Interrupt_period v="5 &amp;#181;s" />
       <Same_period_in_modes v="yes" />
       <Component_uses_entire_timer v="no" />
       <group name="Initialization">
@@ -1243,94 +1243,90 @@ asm(BGND);
       <event name="OnEnd" v="don&amp;apos;t generate code" />
     </Events>
   </Bean>
-  <Bean name="Cap1" type="Capture">
+  <Bean name="Bit1" type="BitIO">
     <Enabled v="Y" />
     <Properties>
-      <Component_name v="Cap1" />
-      <Capture_device v="TPM21" />
-      <Counter v="TPM2" />
-      <Capture_input_pin v="PTB4_TPM2CH1_MISO1" />
-      <Capture_input_signal v="" />
+      <Component_name v="Bit1" />
+      <Pin_for_I_O v="PTA6_TPM1CH2_ADP8" />
+      <Pin_signal v="" />
       <Pull_resistor sel_value="no pull resistor">
         
 autoselected pull
 
         <EmptySection_DummyValue />
       </Pull_resistor>
-      <Edge v="rising edge" />
-      <boolgroup name="Interrupt service/event" v="Disabled" />
-      <Maximum_time_of_event v="3.90625 ms" />
+      <Open_drain sel_value="The settings is irrelevant for input direction">
+        
+push-pull
+
+        <EmptySection_DummyValue />
+      </Open_drain>
+      <Slew_rate_control_for_PTA6 v="no" />
+      <Drive_strength_for_PTA6 v="High" />
+      <Direction v="Input" />
       <group name="Initialization">
-        <Enabled_in_init__code v="yes" />
-        <Events_enabled_in_init_ v="yes" />
+        <Init__direction v="Input" />
+        <Init__value v="0" />
       </group>
-      <group name="CPU clock/speed selection">
-        <High_speed_mode v="This component enabled" />
-        <Low_speed_mode v="This component disabled" />
-        <Slow_speed_mode v="This component disabled" />
-      </group>
+      <Safe_mode v="yes" />
+      <Optimization_for v="speed" />
     </Properties>
     <Methods>
-      <Enable v="generate code" />
-      <Disable v="generate code" />
-      <EnableEvent v="don&amp;apos;t generate code" />
-      <DisableEvent v="don&amp;apos;t generate code" />
-      <Reset v="generate code" />
-      <GetCaptureValue v="generate code" />
-      <GetStatus v="don&amp;apos;t generate code" />
-      <GetPinValue v="don&amp;apos;t generate code" />
+      <GetDir v="don&amp;apos;t generate code" />
+      <SetDir v="don&amp;apos;t generate code" />
+      <SetInput v="don&amp;apos;t generate code" />
+      <SetOutput v="don&amp;apos;t generate code" />
+      <GetVal v="generate code" />
+      <PutVal v="don&amp;apos;t generate code" />
+      <ClrVal v="don&amp;apos;t generate code" />
+      <SetVal v="don&amp;apos;t generate code" />
+      <NegVal v="don&amp;apos;t generate code" />
     </Methods>
     <Events>
-      <Event_module_name v="Events" />
-      <event name="BeforeNewSpeed" v="don&amp;apos;t generate code" />
-      <event name="AfterNewSpeed" v="don&amp;apos;t generate code" />
-      <event name="OnCapture" v="don&amp;apos;t generate code" />
-      <event name="OnOverflow" v="don&amp;apos;t generate code" />
+      <EmptySection_DummyValue />
     </Events>
   </Bean>
-  <Bean name="Cap2" type="Capture">
+  <Bean name="Bit2" type="BitIO">
     <Enabled v="Y" />
     <Properties>
-      <Component_name v="Cap2" />
-      <Capture_device v="TPM22" />
-      <Counter v="TPM2" />
-      <Capture_input_pin v="PTA7_TPM2CH2_ADP9" />
-      <Capture_input_signal v="" />
+      <Component_name v="Bit2" />
+      <Pin_for_I_O v="PTB5_TPM1CH1_SS1" />
+      <Pin_signal v="" />
       <Pull_resistor sel_value="no pull resistor">
         
 autoselected pull
 
         <EmptySection_DummyValue />
       </Pull_resistor>
-      <Edge v="rising edge" />
-      <boolgroup name="Interrupt service/event" v="Disabled" />
-      <Maximum_time_of_event v="3.90625 ms" />
+      <Open_drain sel_value="The settings is irrelevant for input direction">
+        
+push-pull
+
+        <EmptySection_DummyValue />
+      </Open_drain>
+      <Slew_rate_control_for_PTB5 v="no" />
+      <Drive_strength_for_PTB5 v="High" />
+      <Direction v="Input" />
       <group name="Initialization">
-        <Enabled_in_init__code v="yes" />
-        <Events_enabled_in_init_ v="yes" />
+        <Init__direction v="Input" />
+        <Init__value v="0" />
       </group>
-      <group name="CPU clock/speed selection">
-        <High_speed_mode v="This component enabled" />
-        <Low_speed_mode v="This component disabled" />
-        <Slow_speed_mode v="This component disabled" />
-      </group>
+      <Safe_mode v="yes" />
+      <Optimization_for v="speed" />
     </Properties>
     <Methods>
-      <Enable v="generate code" />
-      <Disable v="generate code" />
-      <EnableEvent v="don&amp;apos;t generate code" />
-      <DisableEvent v="don&amp;apos;t generate code" />
-      <Reset v="generate code" />
-      <GetCaptureValue v="generate code" />
-      <GetStatus v="don&amp;apos;t generate code" />
-      <GetPinValue v="don&amp;apos;t generate code" />
+      <GetDir v="don&amp;apos;t generate code" />
+      <SetDir v="don&amp;apos;t generate code" />
+      <SetInput v="don&amp;apos;t generate code" />
+      <SetOutput v="don&amp;apos;t generate code" />
+      <GetVal v="generate code" />
+      <PutVal v="don&amp;apos;t generate code" />
+      <ClrVal v="don&amp;apos;t generate code" />
+      <SetVal v="don&amp;apos;t generate code" />
+      <NegVal v="don&amp;apos;t generate code" />
     </Methods>
     <Events>
-      <Event_module_name v="Events" />
-      <event name="BeforeNewSpeed" v="don&amp;apos;t generate code" />
-      <event name="AfterNewSpeed" v="don&amp;apos;t generate code" />
-      <event name="OnCapture" v="don&amp;apos;t generate code" />
-      <event name="OnOverflow" v="don&amp;apos;t generate code" />
+      <EmptySection_DummyValue />
     </Events>
   </Bean>
 </PE_PROJECT_SETTINGS_DOCUMENTATION>

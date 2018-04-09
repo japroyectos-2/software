@@ -42,22 +42,24 @@
 #include "PWM3.h"
 #include "PWM2.h"
 #include "PWM4.h"
-#include "Cap1.h"
-#include "Cap2.h"
+#include "Bit1.h"
+#include "Bit2.h"
 
 #define esperar 0
 #define medir 1
 #define enviar 2
-extern unsigned char dato;
 
-extern countPWM;
+extern unsigned char dato;
+extern int signal;
+
+extern int countPWM, countT1, countTime1, countTime2;
 
 typedef union{
 	unsigned char u8[3];
 	unsigned int u16;
 }AMPLITUD1;
 
-extern volatile AMPLITUD1 time1, time2, timeAux1, timeAux2;
+extern volatile AMPLITUD1 time1, time2;
 //extern int time1, time2, timeAux1, timeAux2;
 
 void TI2_OnInterrupt(void);

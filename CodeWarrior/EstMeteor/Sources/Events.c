@@ -32,7 +32,9 @@
 #include "Events.h"
 
 /* User includes (#include below this line is not maintained by Processor Expert) */
-int countPWM = 0;
+int countPWM = 0, countT1 = 0, countTime1 = 0, countTime2 = 0, signal = 0;
+int pwm1Error, pwm2Error, pwm3Error, pwm4Error;
+
 //volatile AMPLITUD1 ADC1, ADC2, Aux, time2, time1, timeAux1, timeAux2; 
 
 /*
@@ -55,12 +57,13 @@ void TI2_OnInterrupt(void)
 	countPWM++;
 		
 	if(countPWM==1){
-		PWM1_Enable();
-		PWM3_Enable();
+		pwm1Error = PWM1_Enable(); 
+		pwm3Error = PWM3_Enable();
 	}
 	if(countPWM==2){
-		PWM1_Disable();
-		PWM3_Disable();
+		pwm1Error = PWM1_Disable();
+		pwm3Error = PWM3_Disable();
+		signal = 1;
 		//Cap1_Enable();
 		//Cap1_GetCaptureValue(&timeAux1.u16);
 		//Cap1_Reset();
@@ -71,12 +74,13 @@ void TI2_OnInterrupt(void)
 	}
 	if(countPWM==10){
 		//Cap1_Disable();
-		PWM2_Enable();
-		PWM4_Enable();
+		pwm2Error = PWM2_Enable();
+		pwm4Error = PWM4_Enable();
 	}
 	if(countPWM==11){
-		PWM2_Disable();
-		PWM4_Disable();
+		pwm2Error = PWM2_Disable();
+		pwm4Error = PWM4_Disable();
+		signal = 2;
 		//Cap2_Enable();
 		//Cap2_GetCaptureValue(&timeAux2.u16);
 		//Cap2_Reset();
@@ -199,9 +203,30 @@ void  AS1_OnFreeTxBuf(void)
 void TI1_OnInterrupt(void)
 {
   /* Write your code here ... */
-	if(dato==esperar){
-		dato=medir;
-	} 
+	countT1++;
+	
+	if(signal == 1){
+		countTime1++;
+		if(!Bit1_GetVal()){
+			time1.u16 = countTime1;
+			countTime1 = 0;
+			signal = 0;
+		}
+	}
+	if(signal == 2){
+		countTime2++;
+		if(!Bit2_GetVal()){
+			time2.u16 = countTime2;
+			countTime2 = 0;
+			signal = 0;
+		}
+	}
+	if(countT1 == 50){
+		if(dato==esperar){
+			dato=medir;
+			countT1 = 0;
+		} 		
+	}
 }
 
 /* END Events */

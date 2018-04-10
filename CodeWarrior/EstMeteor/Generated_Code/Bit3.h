@@ -6,7 +6,7 @@
 **     Component   : BitIO
 **     Version     : Component 02.086, Driver 03.27, CPU db: 3.00.067
 **     Compiler    : CodeWarrior HCS08 C Compiler
-**     Date/Time   : 2018-04-09, 16:46, # CodeGen: 37
+**     Date/Time   : 2018-04-10, 15:16, # CodeGen: 39
 **     Abstract    :
 **         This component "BitIO" implements an one-bit input/output.
 **         It uses one bit/pin of a port.
@@ -18,13 +18,13 @@
 **             ----------------------------------------------------
 **                Number (on package)  |    Name
 **             ----------------------------------------------------
-**                       62            |  PTA0_KBI1P0_TPM1CH0_ADP0_ACMP1PLUS
+**                       61            |  PTA1_KBI1P1_TPM2CH0_ADP1_ACMP1MINUS
 **             ----------------------------------------------------
 **
 **         Port name                   : PTA
 **
-**         Bit number (in port)        : 0
-**         Bit mask of the port        : $0001
+**         Bit number (in port)        : 1
+**         Bit mask of the port        : $0002
 **
 **         Initial direction           : Output (direction cannot be changed)
 **         Initial output value        : 0
@@ -94,7 +94,7 @@
 ** ===================================================================
 */
 #define Bit3_GetVal() ( \
-    (bool)((getReg8(PTAD) & 0x01U))    /* Return port data */ \
+    (bool)((getReg8(PTAD) & 0x02U))    /* Return port data */ \
   )
 
 /*
@@ -122,7 +122,7 @@ void Bit3_PutVal(bool Val);
 ** ===================================================================
 */
 #define Bit3_ClrVal() ( \
-    (void)clrReg8Bits(PTAD, 0x01U)     /* PTAD0=0x00U */ \
+    (void)clrReg8Bits(PTAD, 0x02U)     /* PTAD1=0x00U */ \
   )
 
 /*
@@ -135,7 +135,7 @@ void Bit3_PutVal(bool Val);
 ** ===================================================================
 */
 #define Bit3_SetVal() ( \
-    (void)setReg8Bits(PTAD, 0x01U)     /* PTAD0=0x01U */ \
+    (void)setReg8Bits(PTAD, 0x02U)     /* PTAD1=0x01U */ \
   )
 
 /*
@@ -148,7 +148,7 @@ void Bit3_PutVal(bool Val);
 ** ===================================================================
 */
 #define Bit3_NegVal() ( \
-    (void)invertReg8Bits(PTAD, 0x01U)  /* PTAD0=invert */ \
+    (void)invertReg8Bits(PTAD, 0x02U)  /* PTAD1=invert */ \
   )
 
 

@@ -136,6 +136,13 @@ Module "Bit3"      (component BitIO)
    - Bit3_NegVal -Negates (inverts) the output value. It is equivalent to the [PutVal(!GetVal())]. This method is available 
                 only if the direction = _[output]_ or _[input/output]_.
 
+Module "AD1"       (component ADC)
+   - AD1_Measure -This method performs one measurement on all channels that are set in the component inspector. (Note: If the 
+                <number of conversions> is more than one the conversion of A/D channels is performed specified number of times.)
+   - AD1_GetValue16 -This method returns the last measured values of all channels justified to the left. Compared with 
+                <GetValue> method this method returns more accurate result if the <number of conversions> is greater than 1 and 
+                <AD resolution> is less than 16 bits. In addition, the user code dependency on <AD resolution> is eliminated.
+
 Module "Cpu"       (component MC9S08QE128_80)
    - Cpu_EnableInt -Enables maskable interrupts
    - Cpu_DisableInt -Disables maskable interrupts

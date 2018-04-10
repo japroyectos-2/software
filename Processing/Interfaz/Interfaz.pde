@@ -11,23 +11,19 @@ boolean found;
 IntList buf1, buf2, buf3;
 byte con1, con2, con3, con4, con5, con6;
 
-long buffer1, buffer2, buffer3, bufferAux[];
+int buffer1, buffer2, buffer3;
 int j;
 
 // ************ ANEMÓMETRO ************
 
 float distance = 0.26;
-float time = 0.000758, time1 = 0.000758, time2 = 0.000758; 
+float time = 0.000758, time1 = 0.000758, time2 = 0.0009; 
 float v, vx, vy, angle, sound, temperature;
 
 // ************ PINTAR GRID ************
 int estado = 1, lastx = 40, lasty = 600, posx = 40, posy, increm = 50; 
 
 // ************ BRÚJULA ************
-float Azimuth; 
-float Bank; // PARA QUE LA BRUJULA SE MUEVA, POR AHORA. BORRAR
-float Pitch; // PARA QUE LA BRUJULA SE MUEVA, POR AHORA. BORRAR
-PVector v1, v2; // PARA QUE LA BRUJULA SE MUEVA, POR AHORA. BORRAR
 float CompassMagnificationFactor=0.6; 
 float SpanAngle=120; 
 int NumberOfScaleMajorDivisions; 
@@ -38,12 +34,9 @@ float ThermometerMagnificationFactor=0.9;
 
 boolean sismo; // PARA SIMULAR UN SISMO, POR AHORA. BORRAR
 
-//   ASCII: + 43, - 45
-
 void setup()
 {
     size(800,650);  // TAMAÑO DE VENTANA GRÁFICA.
-    //println(Serial.list());
     Port = new Serial(this, Serial.list()[0], 115200);
     Port.buffer(3); // DEBE SER DE TAMAÑO 5 PARA 2 ANALÓGICOS.
     buf1 = new IntList();
@@ -64,59 +57,8 @@ void draw(){
     text("Estación Meteorológica", 230, 35);    
     
     thermometer();
-    //GetDegValue();
     Compass(); 
         
-    // PARA PINTAR ANALÓGICO 1.
-    //if(buf1.size()>=40){      // Tamaño de la lista para comenzar a pintar.
-    
-      
-      /*if(posx < 800){
-        posy = buf1.remove(0);   // Obtiene el primer valor de la lista y lo elimina de esta.
-        if(posx == 40){    
-          //stroke(255);
-          //line(lastx, lasty, posx, posy);
-          lastx = posx;
-          lasty = posy;
-          posx += increm;
-        } 
-        else {
-          stroke(0,100,255);
-          line(lastx, lasty, posx, posy);
-          lastx = posx;
-          lasty = posy;
-          posx += increm;
-        }
-        // pintar = false
-      } // if() 2
-      else {
-        posx = 40;
-        lastx = 40;
-        lasty= 600;
-        background(0);
-        grid();
-        buf1.clear();            // Se vacia la lista.
-      } // else */
-    //} // if() 1
-    
-    // PARA PINTAR ANALÓGICO 2.
-    /*
-    if(buf2.size()>=20){
-      if(posx < 840){
-        posy = buf1.remove(0);
-        line(lastx, lasty, posx, posy);
-        lastx = posx;
-        lasty = posy;
-        posx += increm;
-      } else {
-        posx = 0;
-        lastx = 0;
-        lasty= 620;
-        background(255);
-        buf1.clear();
-      }
-    }
-    */
 } // draw()
 
 // Loop infinito.
@@ -141,80 +83,47 @@ void serialEvent(Serial Port){
           
         case 3:           // Parados en Byte 2 de Analógico 1.
           con2 = in[i];   // Se obtiene Byte 2.
-          buffer1 = (long)(0.059605*(256*con1)+con2);
-          //for(j=0;j<30;j++){
-          //  bufferAux[j]=
-          //}  
-          //buffer1=decode(con1,con2);
+          //buffer1 = (long)(0.059605*(256*con1)+con2);
           //if(buffer1 < 1000 && buffer1<3300){
-            print("Tiempo1: ");
-            println(buffer1);
+          //  print("Tiempo1: ");
+          //  println(buffer1);
           //}
-          buf1.append(decode(con1,con2)); // Guardar decodificación de valores en la lista de analógico 1.
           estado = 4;
           break;
           
         case 4:           // Parados en Byte 1 de Analógico 2.
           con3 = in[i];   // Se obtiene Byte 3.
-          // decodificar digitales 3 y 4
           estado = 5;
           break;
           
         case 5:           // Parados en Byte 2 de Analógico 2.
           con4 = in[i];   // Se obtiene Byte 4.
-          buffer2 = (long)(0.059605*(256*con1)+con2);
+          //buffer2 = (long)(0.059605*(256*con1)+con2);
           //if(buffer2 > 300 && buffer2<2800){
           //  print("Tiempo2: ");
           //  println(buffer2);
           //}
-          buf2.append(decode(con1,con2)); // Guardar decodificación de valores en la lista de analógico 1.
           parameters(time, time1, time2);
-          estado = 1;
+          estado = 6;
           break;
           
-        /*case 6:           // Parados en Byte 1 de Analógico 2.
+        case 6:           // Parados en Byte 1 de Analógico 2.
           con5 = in[i];   // Se obtiene Byte 3.
-          // decodificar digitales 3 y 4
           estado = 7;
           break;
           
         case 7:           // Parados en Byte 2 de Analógico 2.
           con6 = in[i];   // Se obtiene Byte 4.
           buffer3=decode(con5,con6);
-          //if(buffer2 > 300){
-          //  print("Tiempo2: ");
-          //  println(buffer2);
-          //}
-          buf3.append(buffer3); // Guardar decodificación de valores en la lista de analógico 1.
+          if(buffer3<2400 || buffer3>2900){
+            sismo=true;
+          }          
           estado = 1;
-          break;*/  
+          break; 
       } // switch()    
     } // if()
-
   } // loop for()
-  //println(in);
 }  // serialEvent();
-
-// INTERRUPCIONES POR TECLADO
-void keyPressed() {
-  if (key == '+') {    // Zoom in.
-    if(increm < 800){
-      increm += 20;     // Se aumenta el desplazamiento en x.
-    }
-  }
-  if (key == '-') {    // Zoom out.
-    if(increm > 0){
-      increm -= 20;     // Se disminuye el desplazamiento en x.
-      if(increm == 0){
-        text("Zoom out no disponible",500,10);
-        increm = 20;
-      }      
-    }
-  }
-  if(key == ' '){
-    sismo=true;
-  }  
-} // keyPressed
 
 // Decodificar protocolo.
 int decode(byte con1, byte con2){
@@ -226,16 +135,19 @@ int decode(byte con1, byte con2){
   aux4 = aux2 & 0x00FF;
   aux4 = aux3 | aux4;
   code = aux4 >> 1;
-
+  
   return code;
 } // decode()
 
+// Calculo de parámetros.
 void parameters(float tiempo, float tiempo1, float tiempo2){
-
+  
+  // Para cálculo de la velocidad del viento.
   vx = (distance*(tiempo1-tiempo))/(2*tiempo1*tiempo);
   vy = (distance*(tiempo2-tiempo))/(2*tiempo2*tiempo);
   v = sqrt(pow(vx,2)+pow(vy,2));
   
+  // Para cálculo de la dirección del viento.
   if(tiempo1>tiempo && tiempo2<tiempo){
     angle = ((180*(atan(vy/vx)))/PI) + 180;
   }
@@ -247,10 +159,22 @@ void parameters(float tiempo, float tiempo1, float tiempo2){
   }
   if(tiempo1<tiempo && tiempo2<tiempo){
     angle = ((180*(atan(vy/vx)))/PI);
+  }
+  if(tiempo1>tiempo){
+    angle = ((180*(atan(vy/vx)))/PI) + 180;
+  }
+  if(tiempo1<tiempo){
+    angle = ((180*(atan(vy/vx)))/PI);
+  }else{
+    angle = ((180*(atan(vy/vx)))/PI) + 180;
   }  
+  
+  // Para el cálculo de la temperatura.
   temperature = (pow((distance*(tiempo1+tiempo))/(40*tiempo1*tiempo),2)) - 273;
+  
+  // Para el cálculo de la velocidad del sonido.
   sound = (distance*(tiempo1+tiempo))/(2*tiempo1*tiempo);
-}
+} // parameters()
 
 void backgroudBlue()
 {
@@ -275,30 +199,6 @@ void backgroudRed(){
     
     sismo = false;
   } 
-}
-
-// ************ PINTAR GRID ************
-void grid(){
-  float x = 40, y = 60;
-  
-  stroke(255);
-  
-  while(x < width){
-    float i = 3.3, m = 60;
-    text("SEÑAL DE ENTRADA", 350, 50);
-    while(m <= 580){
-    text(i, 5, m);
-      i = i - 0.253846;
-      m = m + 40;
-    }
-    line(x, 60, x, height-40);
-    x = x + 40;    
-  }
-  
-  while(y < height){
-    line(40, y, width-40, y);
-    y = y + 40;    
-  }  
 }
 
 // ************ BRÚJULA ************
@@ -348,8 +248,10 @@ void Compass()
   text("NE", 0, -355, 100, 50); 
   text("SW", 0, 365, 100, 50); 
   rotate(-PI/4); 
+  parameters(time, time1, time2);
   CompassPointer(); 
   showDegreesB(); 
+  
 }
 
 void CompassPointer() 
@@ -432,6 +334,7 @@ void showDegreesB()
 
 // ************ TERMOMETRO ************
 
+// Interfaz del termómetro.
 void thermometer()
 {
  int i;
@@ -439,29 +342,32 @@ void thermometer()
  
  scale(ThermometerMagnificationFactor); 
 
- //fill background in gray
+ // Relleno de gris
  fill (120,120,120);
 
- //build thermostat
+ // Creación del termostato.
  rectMode(CORNER);
  rect(680, 60, 70, 392);
  ellipse (715, 500, 120, 120);
   
- //build quicksilver reservoir
+ // Reservorio de color azul.
  fill(0, 0, 100);
  ellipse (715, 500, 100, 100);
  rect(690,450,50,10); // RELLENO
  
- //quicksilver
+ // Reservorio a llenarse dependiendo de los grados.
  rect(690, 70+N, 50, 380-N);  // PINTA EL VALOR EN GRADOS.
  
+ // Lineas de medida. 
  fill(0);
  for(i=1;i<=13;i++){
    rect(700,(i*30+40),40,3); // RELLENO
  }
+ 
  ShowDegreesT();
 }
 
+// Valor a mostrar debajo del termómetro en °C
 void ShowDegreesT() 
 { 
   int temperature1=round(temperature); 

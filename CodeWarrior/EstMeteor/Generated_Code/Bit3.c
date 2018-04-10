@@ -6,7 +6,7 @@
 **     Component   : BitIO
 **     Version     : Component 02.086, Driver 03.27, CPU db: 3.00.067
 **     Compiler    : CodeWarrior HCS08 C Compiler
-**     Date/Time   : 2018-04-09, 16:46, # CodeGen: 37
+**     Date/Time   : 2018-04-10, 15:16, # CodeGen: 39
 **     Abstract    :
 **         This component "BitIO" implements an one-bit input/output.
 **         It uses one bit/pin of a port.
@@ -18,13 +18,13 @@
 **             ----------------------------------------------------
 **                Number (on package)  |    Name
 **             ----------------------------------------------------
-**                       62            |  PTA0_KBI1P0_TPM1CH0_ADP0_ACMP1PLUS
+**                       61            |  PTA1_KBI1P1_TPM2CH0_ADP1_ACMP1MINUS
 **             ----------------------------------------------------
 **
 **         Port name                   : PTA
 **
-**         Bit number (in port)        : 0
-**         Bit mask of the port        : $0001
+**         Bit number (in port)        : 1
+**         Bit mask of the port        : $0002
 **
 **         Initial direction           : Output (direction cannot be changed)
 **         Initial output value        : 0
@@ -113,9 +113,9 @@ bool Bit3_GetVal(void)
 void Bit3_PutVal(bool Val)
 {
   if (Val) {
-    setReg8Bits(PTAD, 0x01U);          /* PTAD0=0x01U */
+    setReg8Bits(PTAD, 0x02U);          /* PTAD1=0x01U */
   } else { /* !Val */
-    clrReg8Bits(PTAD, 0x01U);          /* PTAD0=0x00U */
+    clrReg8Bits(PTAD, 0x02U);          /* PTAD1=0x00U */
   } /* !Val */
 }
 

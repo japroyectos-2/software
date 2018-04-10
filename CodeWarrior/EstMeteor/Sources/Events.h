@@ -45,6 +45,7 @@
 #include "Bit2.h"
 #include "FC1.h"
 #include "Bit3.h"
+#include "AD1.h"
 
 #define esperar 0
 #define ultrasonido1 1
@@ -56,8 +57,7 @@ extern unsigned char dato;
 
 extern unsigned int signal;
 
-extern unsigned int echo1, echo2;
-extern unsigned int countPWM, countT1, countTime1, countTime2;
+extern unsigned int countPWM, countT1, countTime1, countTime2, echo1, echo2;
 
 //typedef union{
 //	unsigned char u8[3];
@@ -170,6 +170,22 @@ void TI1_OnInterrupt(void);
 **         when the component is enabled - <Enable> and the events are
 **         enabled - <EnableEvent>). This event is enabled only if a
 **         <interrupt service/event> is enabled.
+**     Parameters  : None
+**     Returns     : Nothing
+** ===================================================================
+*/
+
+void AD1_OnEnd(void);
+/*
+** ===================================================================
+**     Event       :  AD1_OnEnd (module Events)
+**
+**     Component   :  AD1 [ADC]
+**     Description :
+**         This event is called after the measurement (which consists
+**         of <1 or more conversions>) is/are finished.
+**         The event is available only when the <Interrupt
+**         service/event> property is enabled.
 **     Parameters  : None
 **     Returns     : Nothing
 ** ===================================================================

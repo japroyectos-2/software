@@ -69,13 +69,8 @@ void TI2_OnInterrupt(void)
 		if(dato == esperar){
 			dato = ultrasonido1;
 		}
-		//Cap2_Enable();
-		//Cap2_GetCaptureValue(&time1);
-		//Cap2_Reset();
-		//signal = 1;
 	}
 	if(countPWM==11){
-		//Cap2_Disable();
 		pwm2Error = PWM2_Enable();
 		pwm4Error = PWM4_Enable();
 	}
@@ -86,16 +81,11 @@ void TI2_OnInterrupt(void)
 		if(dato == esperar){
 			dato = ultrasonido2;
 		}
-		//Cap1_Enable();
-		//Cap1_GetCaptureValue(&time2);
-		//Cap1_Reset();
-		//signal = 2;
 	}
 	if(countPWM==20){
 		if(dato == esperar){
 			dato=medir;
 		}
-		//Cap1_Disable();
 		countPWM = 0;
 	}		
 }
@@ -208,7 +198,7 @@ void  AS1_OnFreeTxBuf(void)
 void TI1_OnInterrupt(void)
 {
   /* Write your code here ... */
-	if(signal == 1){
+	/*if(signal == 1){
 		countTime1++;
 		if(Bit1_GetVal()){
 			time1 = countTime1;
@@ -223,8 +213,28 @@ void TI1_OnInterrupt(void)
 			countTime2 = 0;
 			signal = 0;
 		}
-	}
+	}*/
 }
+
+/*
+** ===================================================================
+**     Event       :  AD1_OnEnd (module Events)
+**
+**     Component   :  AD1 [ADC]
+**     Description :
+**         This event is called after the measurement (which consists
+**         of <1 or more conversions>) is/are finished.
+**         The event is available only when the <Interrupt
+**         service/event> property is enabled.
+**     Parameters  : None
+**     Returns     : Nothing
+** ===================================================================
+*/
+void AD1_OnEnd(void)
+{
+  /* Write your code here ... */
+}
+
 
 /* END Events */
 

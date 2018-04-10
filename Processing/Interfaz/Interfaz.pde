@@ -8,10 +8,11 @@ int H=650;
 // ************ COMUNICACIÓN SERIAL ************
 Serial Port;
 boolean found;
-IntList buf1, buf2;
-byte con1, con2, con3, con4;
+IntList buf1, buf2, buf3;
+byte con1, con2, con3, con4, con5, con6;
 
-int buffer;
+long buffer1, buffer2, buffer3, bufferAux[];
+int j;
 
 // ************ ANEMÓMETRO ************
 
@@ -120,7 +121,7 @@ void draw(){
 
 // Loop infinito.
 void serialEvent(Serial Port){
-  byte[] in = new byte[3];   // Arreglo de bytes de entrada. DEBE SER DE TAMAÑO 5 PARA DOS ANALÓGICOS.
+  byte[] in = new byte[7];   // Arreglo de bytes de entrada. DEBE SER DE TAMAÑO 5 PARA DOS ANALÓGICOS.
   Port.readBytes(in);        // Leer paquete de bytes de entrada.
   
   for(int i=0;i<3;i++){   // Localizar la cabecera. CAMBIAR A 5 PARA DOS ANALÓGICOS.
@@ -140,14 +141,17 @@ void serialEvent(Serial Port){
           
         case 3:           // Parados en Byte 2 de Analógico 1.
           con2 = in[i];   // Se obtiene Byte 2.
-          buffer=decode(con1,con2);
-          parameters(time, time1, time2);
-          if(buffer != 0){
+          buffer1 = (long)(0.059605*(256*con1)+con2);
+          //for(j=0;j<30;j++){
+          //  bufferAux[j]=
+          //}  
+          //buffer1=decode(con1,con2);
+          //if(buffer1 < 1000 && buffer1<3300){
             print("Tiempo1: ");
-            println(buffer);
-          }
-          buf1.append(buffer); // Guardar decodificación de valores en la lista de analógico 1.
-          estado = 1;
+            println(buffer1);
+          //}
+          buf1.append(decode(con1,con2)); // Guardar decodificación de valores en la lista de analógico 1.
+          estado = 4;
           break;
           
         case 4:           // Parados en Byte 1 de Analógico 2.
@@ -158,9 +162,32 @@ void serialEvent(Serial Port){
           
         case 5:           // Parados en Byte 2 de Analógico 2.
           con4 = in[i];   // Se obtiene Byte 4.
-          buf2.append(decode(con2,con3)); // Guardar decodificación de valores en la lista de analógico 2.
+          buffer2 = (long)(0.059605*(256*con1)+con2);
+          //if(buffer2 > 300 && buffer2<2800){
+          //  print("Tiempo2: ");
+          //  println(buffer2);
+          //}
+          buf2.append(decode(con1,con2)); // Guardar decodificación de valores en la lista de analógico 1.
+          parameters(time, time1, time2);
           estado = 1;
           break;
+          
+        /*case 6:           // Parados en Byte 1 de Analógico 2.
+          con5 = in[i];   // Se obtiene Byte 3.
+          // decodificar digitales 3 y 4
+          estado = 7;
+          break;
+          
+        case 7:           // Parados en Byte 2 de Analógico 2.
+          con6 = in[i];   // Se obtiene Byte 4.
+          buffer3=decode(con5,con6);
+          //if(buffer2 > 300){
+          //  print("Tiempo2: ");
+          //  println(buffer2);
+          //}
+          buf3.append(buffer3); // Guardar decodificación de valores en la lista de analógico 1.
+          estado = 1;
+          break;*/  
       } // switch()    
     } // if()
 

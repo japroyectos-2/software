@@ -829,7 +829,7 @@ asm(BGND);
     </CompilerProperties>
   </CPU_Bean>
   <Bean name="TI1" type="TimerInt">
-    <Enabled v="Y" />
+    <Enabled v="N" />
     <Properties>
       <Component_name v="TI1" />
       <Periodic_interrupt_source v="TPM10" />
@@ -1244,7 +1244,7 @@ asm(BGND);
     </Events>
   </Bean>
   <Bean name="Bit1" type="BitIO">
-    <Enabled v="N" />
+    <Enabled v="Y" />
     <Properties>
       <Component_name v="Bit1" />
       <Pin_for_I_O v="PTA6_TPM1CH2_ADP8" />
@@ -1287,7 +1287,7 @@ push-pull
     </Events>
   </Bean>
   <Bean name="Bit2" type="BitIO">
-    <Enabled v="N" />
+    <Enabled v="Y" />
     <Properties>
       <Component_name v="Bit2" />
       <Pin_for_I_O v="PTB5_TPM1CH1_SS1" />
@@ -1330,7 +1330,7 @@ push-pull
     </Events>
   </Bean>
   <Bean name="Cap1" type="Capture">
-    <Enabled v="Y" />
+    <Enabled v="N" />
     <Properties>
       <Component_name v="Cap1" />
       <Capture_device v="TPM11" />
@@ -1343,14 +1343,13 @@ autoselected pull
 
         <EmptySection_DummyValue />
       </Pull_resistor>
-      <Edge sel_value="rising edge">
-        
-rising or falling edge
-
-        <EmptySection_DummyValue />
-      </Edge>
-      <boolgroup name="Interrupt service/event" v="Disabled" />
-      <Maximum_time_of_event v="45 ms" />
+      <Edge v="both edges" />
+      <boolgroup name="Interrupt service/event" v="Enabled">
+        <Capture_interrupt v="Vtpm1ch1" />
+        <Capture_priority v="medium priority" />
+        <boolgroup name="Overflow support" v="Disabled" />
+      </boolgroup>
+      <Maximum_time_of_event v="3.90625 ms" />
       <group name="Initialization">
         <Enabled_in_init__code v="yes" />
         <Events_enabled_in_init_ v="yes" />
@@ -1375,12 +1374,15 @@ rising or falling edge
       <Event_module_name v="Events" />
       <event name="BeforeNewSpeed" v="don&amp;apos;t generate code" />
       <event name="AfterNewSpeed" v="don&amp;apos;t generate code" />
-      <event name="OnCapture" v="don&amp;apos;t generate code" />
+      <event name="OnCapture" v="generate code">
+        <Event_procedure_name v="Cap1_OnCapture" />
+        <Priority v="same as interrupt" />
+      </event>
       <event name="OnOverflow" v="don&amp;apos;t generate code" />
     </Events>
   </Bean>
   <Bean name="Cap2" type="Capture">
-    <Enabled v="Y" />
+    <Enabled v="N" />
     <Properties>
       <Component_name v="Cap2" />
       <Capture_device v="TPM12" />
@@ -1393,14 +1395,13 @@ autoselected pull
 
         <EmptySection_DummyValue />
       </Pull_resistor>
-      <Edge sel_value="rising edge">
-        
-rising or falling edge
-
-        <EmptySection_DummyValue />
-      </Edge>
-      <boolgroup name="Interrupt service/event" v="Disabled" />
-      <Maximum_time_of_event v="45 ms" />
+      <Edge v="both edges" />
+      <boolgroup name="Interrupt service/event" v="Enabled">
+        <Capture_interrupt v="Vtpm1ch2" />
+        <Capture_priority v="medium priority" />
+        <boolgroup name="Overflow support" v="Disabled" />
+      </boolgroup>
+      <Maximum_time_of_event v="3.90625 ms" />
       <group name="Initialization">
         <Enabled_in_init__code v="yes" />
         <Events_enabled_in_init_ v="yes" />
@@ -1425,8 +1426,49 @@ rising or falling edge
       <Event_module_name v="Events" />
       <event name="BeforeNewSpeed" v="don&amp;apos;t generate code" />
       <event name="AfterNewSpeed" v="don&amp;apos;t generate code" />
-      <event name="OnCapture" v="don&amp;apos;t generate code" />
+      <event name="OnCapture" v="generate code">
+        <Event_procedure_name v="Cap2_OnCapture" />
+        <Priority v="same as interrupt" />
+      </event>
       <event name="OnOverflow" v="don&amp;apos;t generate code" />
+    </Events>
+  </Bean>
+  <Bean name="FC1" type="FreeCntr">
+    <Enabled v="Y" />
+    <Properties>
+      <Component_name v="FC1" />
+      <Device v="TPM10" />
+      <Counter v="TPM1" />
+      <boolgroup name="Interrupt service/event" v="Disabled" />
+      <Period_offset v="3.90619 ms" />
+      <Reset_counter_on_compare v="no" />
+      <Same_period_in_modes v="yes" />
+      <Component_uses_entire_timer v="no" />
+      <group name="Initialization">
+        <Enabled_in_init__code v="yes" />
+        <Events_enabled_in_init_ v="yes" />
+      </group>
+      <group name="CPU clock/speed selection">
+        <High_speed_mode v="This component enabled" />
+        <Low_speed_mode v="This component disabled" />
+        <Slow_speed_mode v="This component disabled" />
+      </group>
+    </Properties>
+    <Methods>
+      <Enable v="generate code" />
+      <Disable v="generate code" />
+      <EnableEvent v="don&amp;apos;t generate code" />
+      <DisableEvent v="don&amp;apos;t generate code" />
+      <Reset v="generate code" />
+      <GetCounterValue v="generate code" />
+      <SetCompare v="don&amp;apos;t generate code" />
+      <GetStatus v="don&amp;apos;t generate code" />
+    </Methods>
+    <Events>
+      <Event_module_name v="Events" />
+      <event name="BeforeNewSpeed" v="don&amp;apos;t generate code" />
+      <event name="AfterNewSpeed" v="don&amp;apos;t generate code" />
+      <event name="OnInterrupt" v="don&amp;apos;t generate code" />
     </Events>
   </Bean>
 </PE_PROJECT_SETTINGS_DOCUMENTATION>

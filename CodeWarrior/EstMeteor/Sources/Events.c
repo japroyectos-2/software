@@ -32,9 +32,9 @@
 #include "Events.h"
 
 /* User includes (#include below this line is not maintained by Processor Expert) */
-int countPWM = 0; //countT1 = 0, countTime1 = 0, countTime2 = 0, signal = 0;
+unsigned int countPWM = 0, countT1 = 0, countTime1 = 0, countTime2 = 0, signal = 0;
 int pwm1Error, pwm2Error, pwm3Error, pwm4Error;
-extern unsigned int time1, time2;
+extern unsigned int time1, time2, timea, timeb;
 
 
 //volatile AMPLITUD1 ADC1, ADC2, Aux, time2, time1, timeAux1, timeAux2; 
@@ -65,26 +65,37 @@ void TI2_OnInterrupt(void)
 	if(countPWM==2){
 		pwm1Error = PWM1_Disable();
 		pwm3Error = PWM3_Disable();
-		Cap2_Enable();
-		Cap2_GetCaptureValue(&time1);
-		Cap2_Reset();
+		FC1_Enable();
+		if(dato == esperar){
+			dato = ultrasonido1;
+		}
+		//Cap2_Enable();
+		//Cap2_GetCaptureValue(&time1);
+		//Cap2_Reset();
 		//signal = 1;
 	}
-	if(countPWM==10){
-		Cap2_Disable();
+	if(countPWM==11){
+		//Cap2_Disable();
 		pwm2Error = PWM2_Enable();
 		pwm4Error = PWM4_Enable();
 	}
-	if(countPWM==11){
+	if(countPWM==12){
 		pwm2Error = PWM2_Disable();
 		pwm4Error = PWM4_Disable();
-		Cap1_Enable();
-		Cap1_GetCaptureValue(&time2);
-		Cap1_Reset();
+		FC1_Enable();
+		if(dato == esperar){
+			dato = ultrasonido2;
+		}
+		//Cap1_Enable();
+		//Cap1_GetCaptureValue(&time2);
+		//Cap1_Reset();
 		//signal = 2;
 	}
-	if(countPWM==18){
-		Cap1_Disable();
+	if(countPWM==20){
+		if(dato == esperar){
+			dato=medir;
+		}
+		//Cap1_Disable();
 		countPWM = 0;
 	}		
 }
@@ -197,30 +208,22 @@ void  AS1_OnFreeTxBuf(void)
 void TI1_OnInterrupt(void)
 {
   /* Write your code here ... */
-/*	countT1++;
-	
 	if(signal == 1){
 		countTime1++;
-		if(!Bit1_GetVal()){
-			time1.u16 = countTime1;
+		if(Bit1_GetVal()){
+			time1 = countTime1;
 			countTime1 = 0;
 			signal = 0;
 		}
 	}
 	if(signal == 2){
 		countTime2++;
-		if(!Bit2_GetVal()){
-			time2.u16 = countTime2;
+		if(Bit2_GetVal()){
+			time2 = countTime2;
 			countTime2 = 0;
 			signal = 0;
 		}
 	}
-	if(countT1 == 50){*/
-		if(dato==esperar){
-			dato=medir;
-//			countT1 = 0;
-		} 		
-//	}
 }
 
 /* END Events */

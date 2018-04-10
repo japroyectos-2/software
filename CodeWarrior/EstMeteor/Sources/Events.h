@@ -35,24 +35,29 @@
 #include "PE_Const.h"
 #include "IO_Map.h"
 #include "PE_Timer.h"
-#include "TI1.h"
 #include "AS1.h"
 #include "TI2.h"
 #include "PWM1.h"
 #include "PWM3.h"
 #include "PWM2.h"
 #include "PWM4.h"
-#include "Cap1.h"
-#include "Cap2.h"
+#include "Bit1.h"
+#include "Bit2.h"
+#include "FC1.h"
+#include "Bit3.h"
 
 #define esperar 0
-#define medir 1
-#define enviar 2
+#define ultrasonido1 1
+#define ultrasonido2 2
+#define medir 3
+#define enviar 4
 
 extern unsigned char dato;
-extern int signal;
 
-extern int countPWM;// countT1, countTime1, countTime2;
+extern unsigned int signal;
+
+extern unsigned int echo1, echo2;
+extern unsigned int countPWM, countT1, countTime1, countTime2;
 
 //typedef union{
 //	unsigned char u8[3];

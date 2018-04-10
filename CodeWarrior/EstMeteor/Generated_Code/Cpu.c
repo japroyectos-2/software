@@ -7,7 +7,7 @@
 **     Version     : Component 01.003, Driver 01.40, CPU db: 3.00.067
 **     Datasheet   : MC9S08QE128RM Rev. 2 6/2007
 **     Compiler    : CodeWarrior HCS08 C Compiler
-**     Date/Time   : 2018-04-09, 12:32, # CodeGen: 20
+**     Date/Time   : 2018-04-09, 16:46, # CodeGen: 37
 **     Abstract    :
 **         This component "MC9S08QE128_80" contains initialization 
 **         of the CPU and provides basic methods and events for 
@@ -41,15 +41,16 @@
 
 #pragma MESSAGE DISABLE C4002 /* WARNING C4002: Result not used is ignored */
 
-#include "TI1.h"
 #include "AS1.h"
 #include "TI2.h"
 #include "PWM1.h"
 #include "PWM3.h"
 #include "PWM2.h"
 #include "PWM4.h"
-#include "Cap1.h"
-#include "Cap2.h"
+#include "Bit1.h"
+#include "Bit2.h"
+#include "FC1.h"
+#include "Bit3.h"
 #include "PE_Types.h"
 #include "PE_Error.h"
 #include "PE_Const.h"
@@ -134,8 +135,6 @@ void _EntryPoint(void)
   /* Common initialization of the write once registers */
   /* SOPT1: COPE=0,COPT=1,STOPE=0,??=0,??=0,RSTOPE=0,BKGDPE=1,RSTPE=0 */
   setReg8(SOPT1, 0x42U);                
-  /* SOPT2: COPCLKS=0,??=0,??=0,??=0,SPI1PS=0,ACIC2=0,IIC1PS=0,ACIC1=0 */
-  setReg8(SOPT2, 0x00U);                
   /* SPMSC1: LVDF=0,LVDACK=0,LVDIE=0,LVDRE=1,LVDSE=1,LVDE=1,??=0,BGBE=0 */
   setReg8(SPMSC1, 0x1CU);               
   /* SPMSC2: LPR=0,LPRS=0,LPWUI=0,??=0,PPDF=0,PPDACK=0,PPDE=1,PPDC=0 */
@@ -184,20 +183,22 @@ void PE_low_level_init(void)
   /* SCGC2: DBG=1,FLS=1,IRQ=1,KBI=1,ACMP=1,RTC=1,SPI2=1,SPI1=1 */
   setReg8(SCGC2, 0xFFU);                
   /* Common initialization of the CPU registers */
-  /* PTBDD: PTBDD5=0,PTBDD1=1,PTBDD0=0 */
-  clrSetReg8Bits(PTBDD, 0x21U, 0x02U);  
   /* PTBD: PTBD1=1 */
   setReg8Bits(PTBD, 0x02U);             
+  /* PTBDD: PTBDD5=0,PTBDD1=1,PTBDD0=0 */
+  clrSetReg8Bits(PTBDD, 0x21U, 0x02U);  
   /* PTCDD: PTCDD3=1,PTCDD2=1,PTCDD1=1,PTCDD0=1 */
   setReg8Bits(PTCDD, 0x0FU);            
   /* PTCD: PTCD3=1,PTCD2=0,PTCD1=1,PTCD0=0 */
   clrSetReg8Bits(PTCD, 0x05U, 0x0AU);   
+  /* PTAPE: PTAPE6=0,PTAPE0=0 */
+  clrReg8Bits(PTAPE, 0x41U);            
+  /* PTAD: PTAD0=0 */
+  clrReg8Bits(PTAD, 0x01U);             
+  /* PTADD: PTADD6=0,PTADD0=1 */
+  clrSetReg8Bits(PTADD, 0x40U, 0x01U);  
   /* PTBPE: PTBPE5=0 */
   clrReg8Bits(PTBPE, 0x20U);            
-  /* PTAPE: PTAPE6=0 */
-  clrReg8Bits(PTAPE, 0x40U);            
-  /* PTADD: PTADD6=0 */
-  clrReg8Bits(PTADD, 0x40U);            
   /* PTASE: PTASE7=0,PTASE6=0,PTASE4=0,PTASE3=0,PTASE2=0,PTASE1=0,PTASE0=0 */
   clrReg8Bits(PTASE, 0xDFU);            
   /* PTBSE: PTBSE7=0,PTBSE6=0,PTBSE5=0,PTBSE4=0,PTBSE3=0,PTBSE2=0,PTBSE1=0,PTBSE0=0 */
@@ -235,8 +236,6 @@ void PE_low_level_init(void)
   /* PTJDS: PTJDS7=1,PTJDS6=1,PTJDS5=1,PTJDS4=1,PTJDS3=1,PTJDS2=1,PTJDS1=1,PTJDS0=1 */
   setReg8(PTJDS, 0xFFU);                
   /* ### Shared modules init code ... */
-  /* ### TimerInt "TI1" init code ... */
-  TI1_Init();
   /* ### Asynchro serial "AS1" init code ... */
   AS1_Init();
   /* ### TimerInt "TI2" init code ... */
@@ -249,13 +248,12 @@ void PE_low_level_init(void)
   PWM2_Init();
   /* ### Programable pulse generation "PWM4" init code ... */
   PWM4_Init();
-  /* ### Timer capture encapsulation "Cap1" init code ... */
-  Cap1_Init();
-  /* ### Timer capture encapsulation "Cap2" init code ... */
-  Cap2_Init();
+  /* ### BitIO "Bit1" init code ... */
+  /* ### BitIO "Bit2" init code ... */
+  /* ### FreeCntr "FC1" init code ... */
+  FC1_Init();
+  /* ### BitIO "Bit3" init code ... */
   /* Common peripheral initialization - ENABLE */
-  /* TPM1SC: CLKSB=0,CLKSA=1 */
-  clrSetReg8Bits(TPM1SC, 0x10U, 0x08U); 
   /* TPM3SC: CLKSB=0,CLKSA=1 */
   clrSetReg8Bits(TPM3SC, 0x10U, 0x08U); 
   CCR_lock = (byte)0;

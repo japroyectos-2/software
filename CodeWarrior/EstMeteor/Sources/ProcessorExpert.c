@@ -30,15 +30,16 @@
 /* Including needed modules to compile this module/procedure */
 #include "Cpu.h"
 #include "Events.h"
-#include "TI1.h"
 #include "AS1.h"
 #include "TI2.h"
 #include "PWM1.h"
 #include "PWM3.h"
 #include "PWM2.h"
 #include "PWM4.h"
-#include "Cap1.h"
-#include "Cap2.h"
+#include "Bit1.h"
+#include "Bit2.h"
+#include "FC1.h"
+#include "Bit3.h"
 /* Include shared modules, which are used for whole project */
 #include "PE_Types.h"
 #include "PE_Error.h"
@@ -57,7 +58,7 @@ typedef union{
 
 volatile AMPLITUD1 ADC1, ADC2, ADC3, ADC4; 
 //volatile AMPLITUD2 time1, time2, timeAux1, timeAux2;
-unsigned int time1, time2, timeAux;
+unsigned int time1, time2, timea, timeb, timeAux, echo1=0, echo2=0;
 
 unsigned char env[5];
 
@@ -81,18 +82,66 @@ void main(void)
 	    	  		    		
 	  	  case esperar:
 	  		  break;
-	    	  		    			
+	  		  
+	  	  case ultrasonido1:
+	  		do{
+	  			  		  while(echo1 == 0){
+	  			  			  echo1 = Bit1_GetVal();
+	  			  		  }
+	  			  		  FC1_GetCounterValue(&timea);
+	  			  		  while(echo1 == 1){
+	  			  			  echo1 = Bit1_GetVal();
+	  			  		  }
+	  			  		  FC1_GetCounterValue(&timeb);
+	  			  		  }while((timeb-timea)<100);
+	  			  		  time1=timea;
+	  			  		  Bit3_NegVal();
+	  		 /* while(echo1 == 0){
+	  			  echo1 = Bit1_GetVal();
+	  		  }*/
+	  		  echo1 = 0;
+	  		  //FC1_GetCounterValue(&time1);
+	  		  FC1_Disable();
+	  		  FC1_Reset();
+	  		  dato = esperar;
+	  		  
+	  	  case ultrasonido2:
+	  		  do{
+	  		  while(echo2 == 0){
+	  			  echo2 = Bit2_GetVal();
+	  		  }
+	  		  FC1_GetCounterValue(&timea);
+	  		  while(echo2 == 1){
+	  			  echo2 = Bit2_GetVal();
+	  		  }
+	  		  FC1_GetCounterValue(&timeb);
+	  		  }while((timeb-timea)<100);
+	  		  time2=timea;
+	  		  
+	  		  echo2 = 0;
+	  		  //FC1_GetCounterValue(&time2);
+	  		  FC1_Disable();
+	  		  FC1_Reset();
+	  		  dato = esperar;
+	  		
 	  	  case medir:
 	    	    		
-	  		  time1 = time1 >> 4;
-	  		  ADC1.u16 = time1 & 0x7F;
+	  		  //time1 = time1 >> 4;
+	  		  /*ADC1.u16 = time1; //& 0x7F;
 	  		  ADC2.u16 = time1 >> 7;
-	  		  ADC2.u16 = ADC2.u16 & 0x1F;
+	  		  ADC2.u16 = ADC2.u16 & 0x1F;*/
+	  		  
+	  		  ADC1.u16 = time1&0x00FF;
+	  		  ADC2.u16 = time1 >> 8;
+	  		  ADC2.u16 = ADC2.u16 & 0x00FF;
+	  		  ADC3.u16 = time2&0x00FF;
+	   		  ADC4.u16 = time2 >> 8;
+	   		  ADC4.u16 = ADC4.u16 & 0x00FF;
 	  			    	  
-	      	  time2 = time2 >> 4;
+	      	  /*time2 = time2 >> 4;
 	      	  ADC3.u16 = time2 & 0x7F;
 	      	  ADC4.u16 = time2 >> 7;
-	      	  ADC4.u16 = ADC4.u16 & 0x1F;
+	      	  ADC4.u16 = ADC4.u16 & 0x1F;*/
 	  			    	  
 	  	   	  /*AD1_Measure(TRUE);
 	  	  	  AD1_GetValue16(&Aux.u16);
@@ -108,12 +157,10 @@ void main(void)
 	      	  env[4] = ADC3.u16;
 	  		  /*env[5] = ADC6.u16;
 	  		  env[6] = ADC5.u16;*/
-	  		  dato = enviar;
-
-	      case enviar:
 	    	  //AS1_SendBlock(&Aux.u8,2,&envioS);   // Mandar valor sin protocolo
-	    	  AS1_SendBlock(&env,3,&envioP);    // Mandar valor con protocolo
+	    	  AS1_SendBlock(&env,5,&envioP);    // Mandar valor con protocolo
 	    	  dato = esperar;
+	    	  
 	    	  		  		  
 	      default:
 	    	  break;

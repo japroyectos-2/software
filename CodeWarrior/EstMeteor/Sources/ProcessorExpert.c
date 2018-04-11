@@ -41,6 +41,7 @@
 #include "FC1.h"
 #include "Bit3.h"
 #include "AD1.h"
+#include "Bit4.h"
 /* Include shared modules, which are used for whole project */
 #include "PE_Types.h"
 #include "PE_Error.h"
@@ -94,30 +95,35 @@ void main(void)
 	  		  }while((timeb-timea)<100);
 	  		  time1=timea;
 	  		  Bit3_NegVal();
-	  		  /* while(echo1 == 0){
+	  		  /*while(echo1 == 0){
 	  			echo1 = Bit1_GetVal();
 	  			}*/
 	  		  echo1 = 0;
-	  		  //FC1_GetCounterValue(&time1);
+	  		  /*FC1_GetCounterValue(&time1);
+	  		  Bit3_NegVal();*/
 	  		  FC1_Disable();
 	  		  FC1_Reset();
 	  		  dato = esperar;
 	  		  
 	  	  case ultrasonido2:
 	  		  do{
-	  		  while(echo2 == 0){
-	  			  echo2 = Bit2_GetVal();
-	  		  }
-	  		  FC1_GetCounterValue(&timea);
-	  		  while(echo2 == 1){
-	  			  echo2 = Bit2_GetVal();
-	  		  }
-	  		  FC1_GetCounterValue(&timeb);
+	  			  while(echo2 == 0){
+	  				  echo2 = Bit2_GetVal();
+	  			  }
+	  			  FC1_GetCounterValue(&timea);
+	  			  while(echo2 == 1){
+	  				  echo2 = Bit2_GetVal();
+	  			  }
+	  			  FC1_GetCounterValue(&timeb);
 	  		  }while((timeb-timea)<100);
 	  		  time2=timea;
-	  		  
+	  		  Bit4_NegVal();
+	  		  /*while(echo1 == 0){
+	  			echo1 = Bit1_GetVal();
+	  			}*/
 	  		  echo2 = 0;
 	  		  //FC1_GetCounterValue(&time2);
+	  		  //Bit4_NegVal();
 	  		  FC1_Disable();
 	  		  FC1_Reset();
 	  		  dato = esperar;

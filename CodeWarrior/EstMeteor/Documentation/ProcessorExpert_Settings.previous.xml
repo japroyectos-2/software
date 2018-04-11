@@ -1475,7 +1475,7 @@ autoselected pull
     <Enabled v="Y" />
     <Properties>
       <Component_name v="Bit3" />
-      <Pin_for_I_O v="PTA0_KBI1P0_TPM1CH0_ADP0_ACMP1PLUS" />
+      <Pin_for_I_O v="PTA1_KBI1P1_TPM2CH0_ADP1_ACMP1MINUS" />
       <Pin_signal v="" />
       <Pull_resistor sel_value="no pull resistor">
         
@@ -1484,8 +1484,8 @@ autoselected pull
         <EmptySection_DummyValue />
       </Pull_resistor>
       <Open_drain v="push-pull" />
-      <Slew_rate_control_for_PTA0 v="no" />
-      <Drive_strength_for_PTA0 v="High" />
+      <Slew_rate_control_for_PTA1 v="no" />
+      <Drive_strength_for_PTA1 v="High" />
       <Direction v="Output" />
       <group name="Initialization">
         <Init__direction v="Output" />
@@ -1521,7 +1521,7 @@ autoselected pull
       </boolgroup>
       <list name="A/D channels" v="1">
         <group name="Channel0">
-          <A_D_channel__pin_ v="PTF7_ADP17" />
+          <A_D_channel__pin_ v="PTA0_KBI1P0_TPM1CH0_ADP0_ACMP1PLUS" />
           <A_D_channel__pin__signal v="" />
         </group>
       </list>

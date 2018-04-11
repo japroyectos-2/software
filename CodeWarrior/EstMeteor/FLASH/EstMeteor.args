@@ -12,6 +12,7 @@
 "$(ProjDirPath)/FLASH/Generated_Code/Bit1_c.obj"
 "$(ProjDirPath)/FLASH/Generated_Code/Bit2_c.obj"
 "$(ProjDirPath)/FLASH/Generated_Code/Bit3_c.obj"
+"$(ProjDirPath)/FLASH/Generated_Code/Bit4_c.obj"
 "$(ProjDirPath)/FLASH/Generated_Code/Cpu_c.obj"
 "$(ProjDirPath)/FLASH/Generated_Code/FC1_c.obj"
 "$(ProjDirPath)/FLASH/Generated_Code/IO_Map_c.obj"

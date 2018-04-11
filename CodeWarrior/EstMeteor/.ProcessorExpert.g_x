@@ -10,7 +10,7 @@
   </ToolchainSettings>
   <GeneratedFilesList>
     <GeneratedByPE>
-      <File Name="Sources/ProcessorExpert.c" FileDate="2018-04-10, 15:14:23" FileAge="1523389463877" FileType="128" />
+      <File Name="Sources/ProcessorExpert.c" FileDate="2018-04-11, 09:48:47" FileAge="1523456327220" FileType="128" />
       <File Name="Generated_Code/PWM3.c" FileDate="2018-04-08, 08:46:07" FileAge="1523193367117" FileType="45637" CompNumb="13" />
       <File Name="Project_Settings/Linker_Files/ProcessorExpert.prm" FileDate="2018-04-07, 16:05:55" FileAge="1523133355132" FileType="8" CompNumb="4" />
       <File Name="Generated_Code/PWM2.h" FileDate="2018-04-08, 08:46:07" FileAge="1523193367086" FileType="45637" CompNumb="12" />
@@ -19,17 +19,19 @@
       <File Name="Generated_Code/AD1.h" FileDate="2018-04-10, 15:16:13" FileAge="1523389573413" FileType="45637" CompNumb="36" />
       <File Name="Generated_Code/PWM1.h" FileDate="2018-04-08, 08:46:07" FileAge="1523193367184" FileType="45637" CompNumb="11" />
       <File Name="Generated_Code/PE_Types.h" FileDate="2018-04-08, 08:46:07" FileAge="1523193367009" FileType="45637" />
-      <File Name="Documentation/ProcessorExpert_SIGNALS.txt" FileDate="2018-04-10, 15:16:13" FileAge="1523389573550" FileType="3072" />
+      <File Name="Documentation/ProcessorExpert_SIGNALS.txt" FileDate="2018-04-11, 09:48:47" FileAge="1523456327333" FileType="3072" />
       <File Name="Generated_Code/PE_Error.h" FileDate="2018-04-08, 08:46:07" FileAge="1523193367001" FileType="45637" />
       <File Name="Generated_Code/AD1.c" FileDate="2018-04-10, 15:16:13" FileAge="1523389573475" FileType="45637" CompNumb="36" />
       <File Name="Generated_Code/PWM1.c" FileDate="2018-04-08, 08:46:07" FileAge="1523193367166" FileType="45637" CompNumb="11" />
+      <File Name="Generated_Code/Bit4.h" FileDate="2018-04-11, 09:48:47" FileAge="1523456327166" FileType="45637" CompNumb="44" />
       <File Name="Generated_Code/IO_Map.h" FileDate="2018-04-08, 08:46:06" FileAge="1523193366973" FileType="45637" />
-      <File Name="Documentation/ProcessorExpert.txt" FileDate="2018-04-10, 15:14:24" FileAge="1523389464308" FileType="3072" />
+      <File Name="Documentation/ProcessorExpert.txt" FileDate="2018-04-11, 09:48:47" FileAge="1523456327451" FileType="3072" />
       <File Name="Generated_Code/AS1.h" FileDate="2018-04-10, 15:14:23" FileAge="1523389463843" FileType="45637" CompNumb="9" />
+      <File Name="Generated_Code/Bit4.c" FileDate="2018-04-11, 09:48:47" FileAge="1523456327161" FileType="45637" CompNumb="44" />
       <File Name="Generated_Code/IO_Map.c" FileDate="2018-04-08, 08:46:06" FileAge="1523193366950" FileType="45637" />
       <File Name="Generated_Code/AS1.c" FileDate="2018-04-10, 15:14:23" FileAge="1523389463780" FileType="45637" CompNumb="9" />
-      <File Name="Documentation/ProcessorExpert_Settings.xml" FileDate="2018-04-10, 15:16:13" FileAge="1523389573612" FileType="3072" />
-      <File Name="Sources/Events.h" FileDate="2018-04-10, 15:14:23" FileAge="1523389463940" FileType="131328" />
+      <File Name="Documentation/ProcessorExpert_Settings.xml" FileDate="2018-04-11, 09:48:47" FileAge="1523456327423" FileType="3072" />
+      <File Name="Sources/Events.h" FileDate="2018-04-11, 09:48:47" FileAge="1523456327261" FileType="131328" />
       <File Name="Generated_Code/FC1.h" FileDate="2018-04-09, 16:04:08" FileAge="1523306048985" FileType="45637" CompNumb="33" />
       <File Name="Generated_Code/Bit3.h" FileDate="2018-04-10, 15:16:13" FileAge="1523389573450" FileType="45637" CompNumb="35" />
       <File Name="Generated_Code/FC1.c" FileDate="2018-04-09, 16:04:08" FileAge="1523306048992" FileType="45637" CompNumb="33" />
@@ -38,10 +40,10 @@
       <File Name="Generated_Code/Bit2.h" FileDate="2018-04-09, 13:36:37" FileAge="1523297197324" FileType="45637" CompNumb="26" />
       <File Name="Generated_Code/Bit2.c" FileDate="2018-04-09, 13:36:37" FileAge="1523297197320" FileType="45637" CompNumb="26" />
       <File Name="Generated_Code/Bit1.h" FileDate="2018-04-09, 13:53:17" FileAge="1523298197711" FileType="45637" CompNumb="25" />
-      <File Name="Generated_Code/Cpu.h" FileDate="2018-04-08, 10:57:38" FileAge="1523201258084" FileType="45637" CompNumb="4" />
-      <File Name="Generated_Code/Vectors.c" FileDate="2018-04-10, 15:14:23" FileAge="1523389463911" FileType="45637" CompNumb="4" />
+      <File Name="Generated_Code/Cpu.h" FileDate="2018-04-11, 09:48:47" FileAge="1523456327232" FileType="45637" CompNumb="4" />
+      <File Name="Generated_Code/Vectors.c" FileDate="2018-04-11, 09:48:47" FileAge="1523456327250" FileType="45637" CompNumb="4" />
       <File Name="Generated_Code/Bit1.c" FileDate="2018-04-09, 13:53:17" FileAge="1523298197678" FileType="45637" CompNumb="25" />
-      <File Name="Generated_Code/Cpu.c" FileDate="2018-04-10, 15:16:13" FileAge="1523389573482" FileType="45637" CompNumb="4" />
+      <File Name="Generated_Code/Cpu.c" FileDate="2018-04-11, 09:48:47" FileAge="1523456327241" FileType="45637" CompNumb="4" />
       <File Name="Generated_Code/PWM4.h" FileDate="2018-04-08, 08:46:07" FileAge="1523193367050" FileType="45637" CompNumb="14" />
       <File Name="Generated_Code/PE_Timer.h" FileDate="2018-04-08, 08:46:06" FileAge="1523193366927" FileType="45637" />
       <File Name="Generated_Code/PWM4.c" FileDate="2018-04-08, 08:46:07" FileAge="1523193367026" FileType="45637" CompNumb="14" />
@@ -51,5 +53,5 @@
       <File Name="Generated_Code/TI2.c" FileDate="2018-04-09, 16:00:31" FileAge="1523305831522" FileType="45637" CompNumb="10" />
     </GeneratedByPE>
   </GeneratedFilesList>
-  <CodeGenReference>40</CodeGenReference>
+  <CodeGenReference>44</CodeGenReference>
 </CodeGenerationInfo>

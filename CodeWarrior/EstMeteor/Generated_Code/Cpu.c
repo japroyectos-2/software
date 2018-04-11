@@ -7,7 +7,7 @@
 **     Version     : Component 01.003, Driver 01.40, CPU db: 3.00.067
 **     Datasheet   : MC9S08QE128RM Rev. 2 6/2007
 **     Compiler    : CodeWarrior HCS08 C Compiler
-**     Date/Time   : 2018-04-10, 15:16, # CodeGen: 39
+**     Date/Time   : 2018-04-11, 09:48, # CodeGen: 43
 **     Abstract    :
 **         This component "MC9S08QE128_80" contains initialization 
 **         of the CPU and provides basic methods and events for 
@@ -52,6 +52,7 @@
 #include "FC1.h"
 #include "Bit3.h"
 #include "AD1.h"
+#include "Bit4.h"
 #include "PE_Types.h"
 #include "PE_Error.h"
 #include "PE_Const.h"
@@ -64,6 +65,9 @@
 /* Global variables */
 volatile byte CCR_reg;                 /* Current CCR register */
 volatile byte CCR_lock;                /* Nesting level of critical regions */
+
+/*Definition of global shadow variables*/
+byte Shadow_PTD;
 
 
 /*
@@ -202,6 +206,12 @@ void PE_low_level_init(void)
   clrReg8Bits(PTBPE, 0x20U);            
   /* APCTL1: ADPC0=1 */
   setReg8Bits(APCTL1, 0x01U);           
+  /* PTDD: PTDD1=0 */
+  clrReg8Bits(PTDD, 0x02U);             
+  /* PTDPE: PTDPE1=0 */
+  clrReg8Bits(PTDPE, 0x02U);            
+  /* PTDDD: PTDDD1=1 */
+  setReg8Bits(PTDDD, 0x02U);            
   /* PTASE: PTASE7=0,PTASE6=0,PTASE4=0,PTASE3=0,PTASE2=0,PTASE1=0,PTASE0=0 */
   clrReg8Bits(PTASE, 0xDFU);            
   /* PTBSE: PTBSE7=0,PTBSE6=0,PTBSE5=0,PTBSE4=0,PTBSE3=0,PTBSE2=0,PTBSE1=0,PTBSE0=0 */
@@ -258,6 +268,8 @@ void PE_low_level_init(void)
   /* ### BitIO "Bit3" init code ... */
   /* ###  "AD1" init code ... */
   AD1_Init();
+  /* ### BitIO "Bit4" init code ... */
+  Shadow_PTD &= 0xFDU;                 /* Initialize pin shadow variable bit */
   /* Common peripheral initialization - ENABLE */
   /* TPM3SC: CLKSB=0,CLKSA=1 */
   clrSetReg8Bits(TPM3SC, 0x10U, 0x08U); 

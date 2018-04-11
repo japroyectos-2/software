@@ -46,6 +46,7 @@
 #include "FC1.h"
 #include "Bit3.h"
 #include "AD1.h"
+#include "Bit4.h"
 
 #define esperar 0
 #define ultrasonido1 1

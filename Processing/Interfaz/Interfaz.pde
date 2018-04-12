@@ -40,9 +40,6 @@ void setup()
 {
     size(800,650);  // TAMAÑO DE VENTANA GRÁFICA.
     Port = new Serial(this, Serial.list()[0], 115200);
-    Port.buffer(7); // DEBE SER DE TAMAÑO 5 PARA 2 ANALÓGICOS.
-    //buf1 = new IntList();
-    //buf2 = new IntList();
 } // setup()
 
 void draw(){
@@ -56,71 +53,55 @@ void draw(){
     }
     fill(255);
     textSize(30);
-    text("Estación Meteorológica", 230, 35);    
-    //parameters(time, buffer1, time2);
+    text("Estación Meteorológica", 230, 35); 
     thermometer();
     Compass(); 
         
 } // draw()
 
 // Loop infinito.
-void serialEvent(Serial Port){
-  byte[] in = new byte[6];   // Arreglo de bytes de entrada. DEBE SER DE TAMAÑO 5 PARA DOS ANALÓGICOS.
+void serialEvent(Serial Port) {
+  byte[] in = new byte[6];   // Tamaño del arreglo de bytes de entrada. 
   byte[] dummy = new byte[1];
-  
- 
-  do{
-     Port.readBytes(dummy);
-  }while(dummy[0]!=-14);
-  
+
+  do {  // Para obtener la cabecera del bloque de datos.
+    Port.readBytes(dummy);
+  } while (dummy[0]!=-14);
+
   Port.readBytes(in);        // Leer paquete de bytes de entrada.
- 
 
-          con1 = in[0];   // Se obtiene Byte 1.
-          con2 = in[1];   // Se obtiene Byte 2.
-          buffer1 = (256*con1)+con2;
-          buffer1 = (buffer1*59/1000)/1000000;
-          /*for(k=0;k<11;k++){
-            bufferAux1[k]=buffer1;
-            if(k==10){
-              for(l=0;l<11;l++){
-                buffer4 = buffer4 + bufferAux1[l];
-   
-              }
-            }  
-          }*/
-          print("Tiempo1: ");
-          println(buffer1);
-          con3 = in[2];   // Se obtiene Byte 3.
-          con4 = in[3];   // Se obtiene Byte 4.
-          buffer2 = (256*con3)+con4;
-          buffer2 = (buffer2*59/1000)/1000000;
-          //if(buffer2 > 300 && buffer2<2800){
-            sumBuffer1 = sumBuffer1+buffer1;
-            sumBuffer2 = sumBuffer2+buffer2;
-          //if(buffer2 > 0.0009 || buffer2<0.001){
-            countProm++;
-          if(countProm>=30){
-            print("Tiempo2: ");
-            println(buffer2);
-            buffer1 = sumBuffer1/30;
-            buffer2 = sumBuffer2/30;
-            parameters(time, time1, time2);
-            sumBuffer1=0;
-            sumBuffer2=0;
-            countProm=0;
-          }
-          //}
-          
-          con5 = in[4];   // Se obtiene Byte 3.
-          con6 = in[5];   // Se obtiene Byte 4.
-          buffer3=decode(con5,con6);
-          //println(buffer3);
-          if(buffer3<2300 || buffer3>3000){
-            sismo=true;
-          }            
-    //} // if()
+  // Para obtener el tiempo de vuelo Norte-Sur.
+  con1 = in[0];   // Se obtiene Byte 1.
+  con2 = in[1];   // Se obtiene Byte 2.
+  buffer1 = (256*con1)+con2;  // Conversión de valor.
+  buffer1 = (buffer1*59/1000)/1000000;  // Ajuste a microsegundos, es decir, algo de la forma 0.000758.
 
+  // Para obtener el tiempo de vuelo Este-Oeste.
+  con3 = in[2];   // Se obtiene Byte 3.
+  con4 = in[3];   // Se obtiene Byte 4.
+  buffer2 = (256*con3)+con4;  // Conversión de valor.
+  buffer2 = (buffer2*59/1000)/1000000;  // Ajuste a microsegundos, es decir, algo de la forma 0.000758.
+
+  // Para obtener un promedio de los tiempo de vuelo.
+  sumBuffer1 = sumBuffer1+buffer1; // Buffer para obtener promedio del tiempo de vuelo Norte-Sur.
+  sumBuffer2 = sumBuffer2+buffer2; // Buffer para obtener promedio del tiempo de vuelo Este-Oeste. 
+  countProm++;  // Contador que define cuantos valores de tiempo de vuelo se sumaran para sacar el promedio de estos.
+  if (countProm>=30) {  // Si ya se tienen 30 valores de tiempo de vuelo, se calcula el promedio.
+    buffer1 = sumBuffer1/30;
+    buffer2 = sumBuffer2/30;
+    parameters(time, buffer1, buffer2);
+    sumBuffer1=0;
+    sumBuffer2=0;
+    countProm=0;
+  }
+
+  // Para obtener el valor del acelerómetro, usando la decodificación del protocolo.
+  con5 = in[4];   // Se obtiene Byte 3.
+  con6 = in[5];   // Se obtiene Byte 4.
+  buffer3 = decode(con5, con6);
+  if (buffer3<2300 || buffer3>3000) { // Si el valor de entrada varía de los valores de estado estacionario, se producirá el sismo.
+    sismo=true;
+  }
 }  // serialEvent();
 
 // Decodificar protocolo.
@@ -146,24 +127,24 @@ void parameters(float tiempo, float tiempo1, float tiempo2){
   v = sqrt(pow(vx,2)+pow(vy,2));
   
   // Para cálculo de la dirección del viento.
-  if(tiempo1>tiempo && tiempo2<tiempo){
+  if(tiempo1>tiempo && tiempo2<tiempo){  // Tiempo Norte-Sur mayor a la referencia & Tiempo Este-Oeste menor a la referencia.
     angle = ((180*(atan(vy/vx)))/PI) + 180;
   }
-  if(tiempo1<tiempo && tiempo2>tiempo){
+  if(tiempo1<tiempo && tiempo2>tiempo){  // Tiempo Norte-Sur menor a la referencia & Tiempo Este-Oeste mayor a la referencia.
     angle = ((180*(atan(vy/vx)))/PI);  
   }
-  if(tiempo1>tiempo && tiempo2>tiempo){
+  if(tiempo1>tiempo && tiempo2>tiempo){  // Tiempo Norte-Sur mayor a la referencia & Tiempo Este-Oeste mayor a la referencia.
     angle = ((180*(atan(vy/vx)))/PI) + 180;  
   }
-  if(tiempo1<tiempo && tiempo2<tiempo){
-    angle = ((180*(atan(vy/vx)))/PI);
+  if(tiempo1<tiempo && tiempo2<tiempo){  // Tiempo Norte-Sur menor a la referencia & Tiempo Este-Oeste menor a la referencia.
+    angle = ((180*(atan(vy/vx)))/PI);  
   }
-  if(tiempo1>tiempo){
+  if(tiempo1>tiempo){                    // Tiempo Norte-Sur mayor a la referencia.
     angle = ((180*(atan(vy/vx)))/PI) + 180;
   }
-  if(tiempo1<tiempo){
+  if(tiempo1<tiempo){                    // Tiempo Norte-Sur menor a la referencia.
     angle = ((180*(atan(vy/vx)))/PI);
-  }else{
+  }else{                                 // Tiempo Este-Oeste mayor a la referencia ó Tiempo Este-Oeste menor a la referencia.
     angle = ((180*(atan(vy/vx)))/PI) + 180;
   }  
   
@@ -174,6 +155,7 @@ void parameters(float tiempo, float tiempo1, float tiempo2){
   sound = (distance*(tiempo1+tiempo))/(2*tiempo1*tiempo);
 } // parameters()
 
+// Degradado de fondo Azul, para situación normal.
 void backgroudBlue()
 {
   for (int k=255;k>0;k=k-1) 
@@ -182,8 +164,9 @@ void backgroudBlue()
     fill(0, 0, 255-k); 
     ellipse(400, 310, 3.5*k, 3.5*k); 
   } 
-}
+} // backgroudBlue()
 
+// Degradado de fondo Rojo, para cuando hay sismo.
 void backgroudRed(){
     for (int k=255;k>0;k=k-1) 
   { 
@@ -197,10 +180,11 @@ void backgroudRed(){
     
     sismo = false;
   } 
-}
+} // backgroudRed()
 
 // ************ BRÚJULA ************
 
+// Para pintar la base de la brújula.
 void Compass() 
 { 
   rectMode(CENTER); 
@@ -245,13 +229,12 @@ void Compass()
   text("SE", 365, 0, 100, 50); 
   text("NE", 0, -355, 100, 50); 
   text("SW", 0, 365, 100, 50); 
-  rotate(-PI/4); 
-  //parameters(time, buffer1, time2);
+  rotate(-PI/4);
   CompassPointer(); 
   showDegreesB(); 
-  
-}
+} // Compass() 
 
+// Para pintar la flecha de la brújula.
 void CompassPointer() 
 { 
   rotate(PI+radians(angle));  
@@ -267,8 +250,9 @@ void CompassPointer()
   triangle(-20, -213, 20, -213, 0, -190); 
   triangle(-15, -215, 15, -215, 0, -200); 
   rotate(-PI-radians(angle)); 
-}
+}  // CompassPointer() 
 
+// Para pintar la escala circular de la brújula.
 void CircularScale() 
 { 
   float GaugeWidth=800;  
@@ -317,8 +301,9 @@ void CircularScale()
       line(DivxPhasorCloser, DivyPhasorCloser, DivxPhasorDistal, DivyPhasorDistal); 
     } 
   } 
-}
+} // CircularScale()
 
+// Para mostrar debajo de la brújula, los grados, la velocidad del viento y velocidad del sonido.
 void showDegreesB() 
 { 
   int angle1=round(angle); 
@@ -328,7 +313,7 @@ void showDegreesB()
   text("Degrees:  "+angle1+"°", 90, 477, 500, 60); 
   text("Wind Speed: "+v+" m/s", 90, 520, 500, 60);
   text("Sound Speed: "+sound+" m/s", 90, 570, 500, 60);
-}
+} // showDegreesB() 
 
 // ************ TERMOMETRO ************
 
@@ -361,9 +346,8 @@ void thermometer()
  for(i=1;i<=13;i++){
    rect(700,(i*30+40),40,3); // RELLENO
  }
- 
  ShowDegreesT();
-}
+} // thermometer()
 
 // Valor a mostrar debajo del termómetro en °C
 void ShowDegreesT() 
@@ -373,5 +357,5 @@ void ShowDegreesT()
   textSize(21); 
   fill(255); 
   text("Degrees:  "+temperature1+"°C", 650, 575, 500, 60); 
-}
+}  // ShowDegreesT() 
   

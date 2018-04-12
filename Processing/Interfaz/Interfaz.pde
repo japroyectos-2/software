@@ -8,20 +8,19 @@ int H=650;
 // ************ COMUNICACIÓN SERIAL ************
 Serial Port;
 boolean found;
-IntList buf1, buf2, buf3;
+//IntList buf1, buf2, buf3;
 byte con1, con2, con3, con4, con5, con6;
 
-int buffer1, buffer2, buffer3;
-int j;
+float buffer1, buffer2, buffer3, buffer4 = 0;
+int j, k, l;
+int estado = 1; 
+float bufferAux1[], bufferAux2[];
 
 // ************ ANEMÓMETRO ************
 
 float distance = 0.26;
-float time = 0.000758, time1 = 0.000758, time2 = 0.0009; 
+float time = 0.000758, time1 = 0.0007, time2 = 0.0008; 
 float v, vx, vy, angle, sound, temperature;
-
-// ************ PINTAR GRID ************
-int estado = 1, lastx = 40, lasty = 600, posx = 40, posy, increm = 50; 
 
 // ************ BRÚJULA ************
 float CompassMagnificationFactor=0.6; 
@@ -31,16 +30,19 @@ int NumberOfScaleMinorDivisions;
 
 // ************ TERMÓMETRO ************
 float ThermometerMagnificationFactor=0.9;
+float sumBuffer1=0, sumBuffer2=0;
+int countProm=0;
 
-boolean sismo; // PARA SIMULAR UN SISMO, POR AHORA. BORRAR
+// ************ SISMO ************
+boolean sismo;
 
 void setup()
 {
     size(800,650);  // TAMAÑO DE VENTANA GRÁFICA.
     Port = new Serial(this, Serial.list()[0], 115200);
-    Port.buffer(3); // DEBE SER DE TAMAÑO 5 PARA 2 ANALÓGICOS.
-    buf1 = new IntList();
-    buf2 = new IntList();
+    Port.buffer(7); // DEBE SER DE TAMAÑO 5 PARA 2 ANALÓGICOS.
+    //buf1 = new IntList();
+    //buf2 = new IntList();
 } // setup()
 
 void draw(){
@@ -55,7 +57,7 @@ void draw(){
     fill(255);
     textSize(30);
     text("Estación Meteorológica", 230, 35);    
-    
+    //parameters(time, buffer1, time2);
     thermometer();
     Compass(); 
         
@@ -63,66 +65,62 @@ void draw(){
 
 // Loop infinito.
 void serialEvent(Serial Port){
-  byte[] in = new byte[7];   // Arreglo de bytes de entrada. DEBE SER DE TAMAÑO 5 PARA DOS ANALÓGICOS.
-  Port.readBytes(in);        // Leer paquete de bytes de entrada.
+  byte[] in = new byte[6];   // Arreglo de bytes de entrada. DEBE SER DE TAMAÑO 5 PARA DOS ANALÓGICOS.
+  byte[] dummy = new byte[1];
   
-  for(int i=0;i<3;i++){   // Localizar la cabecera. CAMBIAR A 5 PARA DOS ANALÓGICOS.
-    if(in[i] == -14){   // int8 -14 = HEX F2.
-      found = true;  // En caso de haber sido encontrada la cabecera.
-    } //if() 2
-    if(found){
-      switch (estado){
-        case 1:           // Parados en la cabecera.
-          estado = 2;
-          break;
-        
-        case 2:           // Parados en Byte 1 de Analógico 1.
-          con1 = in[i];   // Se obtiene Byte 1.
-          estado = 3;
-          break;
-          
-        case 3:           // Parados en Byte 2 de Analógico 1.
-          con2 = in[i];   // Se obtiene Byte 2.
-          //buffer1 = (long)(0.059605*(256*con1)+con2);
-          //if(buffer1 < 1000 && buffer1<3300){
-          //  print("Tiempo1: ");
-          //  println(buffer1);
-          //}
-          estado = 4;
-          break;
-          
-        case 4:           // Parados en Byte 1 de Analógico 2.
-          con3 = in[i];   // Se obtiene Byte 3.
-          estado = 5;
-          break;
-          
-        case 5:           // Parados en Byte 2 de Analógico 2.
-          con4 = in[i];   // Se obtiene Byte 4.
-          //buffer2 = (long)(0.059605*(256*con1)+con2);
+ 
+  do{
+     Port.readBytes(dummy);
+  }while(dummy[0]!=-14);
+  
+  Port.readBytes(in);        // Leer paquete de bytes de entrada.
+ 
+
+          con1 = in[0];   // Se obtiene Byte 1.
+          con2 = in[1];   // Se obtiene Byte 2.
+          buffer1 = (256*con1)+con2;
+          buffer1 = (buffer1*59/1000)/1000000;
+          /*for(k=0;k<11;k++){
+            bufferAux1[k]=buffer1;
+            if(k==10){
+              for(l=0;l<11;l++){
+                buffer4 = buffer4 + bufferAux1[l];
+   
+              }
+            }  
+          }*/
+          print("Tiempo1: ");
+          println(buffer1);
+          con3 = in[2];   // Se obtiene Byte 3.
+          con4 = in[3];   // Se obtiene Byte 4.
+          buffer2 = (256*con3)+con4;
+          buffer2 = (buffer2*59/1000)/1000000;
           //if(buffer2 > 300 && buffer2<2800){
-          //  print("Tiempo2: ");
-          //  println(buffer2);
+            sumBuffer1 = sumBuffer1+buffer1;
+            sumBuffer2 = sumBuffer2+buffer2;
+          //if(buffer2 > 0.0009 || buffer2<0.001){
+            countProm++;
+          if(countProm>=30){
+            print("Tiempo2: ");
+            println(buffer2);
+            buffer1 = sumBuffer1/30;
+            buffer2 = sumBuffer2/30;
+            parameters(time, time1, time2);
+            sumBuffer1=0;
+            sumBuffer2=0;
+            countProm=0;
+          }
           //}
-          parameters(time, time1, time2);
-          estado = 6;
-          break;
           
-        case 6:           // Parados en Byte 1 de Analógico 2.
-          con5 = in[i];   // Se obtiene Byte 3.
-          estado = 7;
-          break;
-          
-        case 7:           // Parados en Byte 2 de Analógico 2.
-          con6 = in[i];   // Se obtiene Byte 4.
+          con5 = in[4];   // Se obtiene Byte 3.
+          con6 = in[5];   // Se obtiene Byte 4.
           buffer3=decode(con5,con6);
-          if(buffer3<2400 || buffer3>2900){
+          //println(buffer3);
+          if(buffer3<2300 || buffer3>3000){
             sismo=true;
-          }          
-          estado = 1;
-          break; 
-      } // switch()    
-    } // if()
-  } // loop for()
+          }            
+    //} // if()
+
 }  // serialEvent();
 
 // Decodificar protocolo.
@@ -248,7 +246,7 @@ void Compass()
   text("NE", 0, -355, 100, 50); 
   text("SW", 0, 365, 100, 50); 
   rotate(-PI/4); 
-  parameters(time, time1, time2);
+  //parameters(time, buffer1, time2);
   CompassPointer(); 
   showDegreesB(); 
   

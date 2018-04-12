@@ -56,33 +56,35 @@ extern unsigned int time1, time2, timea, timeb;
 void TI2_OnInterrupt(void)
 {
   /* Write your code here ... */
-	countPWM++;
+	countPWM++; // Contador de interrupciones.
 		
-	if(countPWM==1){
+	if(countPWM==1){  // Para activar PWM's Emisor Norte.
 		pwm1Error = PWM1_Enable(); 
 		pwm3Error = PWM3_Enable();
 	}
-	if(countPWM==2){
+	if(countPWM==2){ // Para desactivar PWM's Emisor Norte.
 		pwm1Error = PWM1_Disable();
 		pwm3Error = PWM3_Disable();
-		FC1_Enable();
 		if(dato == esperar){
-			dato = ultrasonido1;
+			FC1_Enable();  // Activar contador para el tiempo de vuelo.
+			dato = ultrasonido1; // Cambio de estado de la máquina de estados.
+			Bit3_SetVal(); // Se coloca una señal de salida en "1" Para saber donde se hizo el cambio de estados en el Osciloscopio.
 		}
 	}
-	if(countPWM==11){
+	if(countPWM==11){  // Para activar PWM's Emisor Este.
 		pwm2Error = PWM2_Enable();
 		pwm4Error = PWM4_Enable();
 	}
-	if(countPWM==12){
+	if(countPWM==12){  // Para desactivar PWM's Emisor Norte.
 		pwm2Error = PWM2_Disable();
 		pwm4Error = PWM4_Disable();
-		FC1_Enable();
 		if(dato == esperar){
-			dato = ultrasonido2;
+			FC1_Enable(); // Activar contador para el tiempo de vuelo.
+			dato = ultrasonido2; // Cambio de estado de la máquina de estados.
+			Bit4_SetVal(); // Se coloca una señal de salida en "1" Para saber donde se hizo el cambio de estados en el Osciloscopio.
 		}
 	}
-	if(countPWM==20){
+	if(countPWM==20){ // Reincio de contador y cambio de estado de la máquina de estados.
 		if(dato == esperar){
 			dato=medir;
 		}
@@ -198,22 +200,6 @@ void  AS1_OnFreeTxBuf(void)
 void TI1_OnInterrupt(void)
 {
   /* Write your code here ... */
-	/*if(signal == 1){
-		countTime1++;
-		if(Bit1_GetVal()){
-			time1 = countTime1;
-			countTime1 = 0;
-			signal = 0;
-		}
-	}
-	if(signal == 2){
-		countTime2++;
-		if(Bit2_GetVal()){
-			time2 = countTime2;
-			countTime2 = 0;
-			signal = 0;
-		}
-	}*/
 }
 
 /*

@@ -19,7 +19,7 @@ float bufferAux1[], bufferAux2[];
 // ************ ANEMÓMETRO ************
 
 float distance = 0.26;
-float time = 0.000758, time1 = 0.0007, time2 = 0.0008; 
+float time = 0.000758, time1 = 0.000758, time2 = 0.000758; 
 float v, vx, vy, angle, sound, temperature;
 
 // ************ BRÚJULA ************

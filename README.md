@@ -30,4 +30,6 @@ En este lenguaje de programación, se espera crear la totalidad de la interfaz g
 
 Para mayor información sobre la documentación del algoritmo utilizado, [**click aquí**](https://github.com/japroyectos-2/software/wiki/Processing)
 
+De la misma manera, para acceder a toda la documentación del hardware utilizado para este proyecto, [**click aquí**](https://github.com/japroyectos-2/Hardware)
+
 Agradecimiento al Prof. Novel Certad y al preparador Said Alvarado por los conocimientos impartidos y la buena disposición para la realización de este proyecto, así como a los compañeros que ayudaron en los avances de este.

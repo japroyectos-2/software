@@ -8,13 +8,9 @@ int H=650;
 // ************ COMUNICACIÓN SERIAL ************
 Serial Port;
 boolean found;
-//IntList buf1, buf2, buf3;
 byte con1, con2, con3, con4, con5, con6;
 
-float buffer1, buffer2, buffer3, buffer4 = 0;
-int j, k, l;
-int estado = 1; 
-float bufferAux1[], bufferAux2[];
+float buffer1, buffer2, buffer3;
 
 // ************ ANEMÓMETRO ************
 
